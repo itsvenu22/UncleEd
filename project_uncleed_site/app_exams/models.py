@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 class Exam(models.Model):
@@ -15,3 +16,5 @@ class MockTest(models.Model):
 
     def __str__(self):
         return self.name
+
+User._meta.get_field('email')._unique = True
