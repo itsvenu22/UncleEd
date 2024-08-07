@@ -1,0 +1,23 @@
+{% extends 'app_exams/base.html' %}
+
+{% block title %}{{ exam.name }} Mock Tests{% endblock %}
+
+{% block content %}
+<h1>{{ exam.name }}</h1>
+<p>{{ exam.description }}</p>
+<h2>Mock Tests</h2>
+<ul>
+    {% for mocktest in mocktests %}
+    <li>
+        <a href="{{ mocktest.link }}">{{ mocktest.name }}</a>
+        {% if mocktest.is_premium %}
+        (Premium)
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% if not user.is_authenticated %}
+<p>To access premium links, please <a href="{% url 'login' %}">login</a>.</p>
+{% endif %}
+<a href="{% url 'exam_list' %}">Back to exams</a>
+{% endblock %}

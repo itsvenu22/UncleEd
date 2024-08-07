@@ -1,0 +1,12 @@
+{% extends 'app_exams/base.html' %}
+
+{% block title %}Exams{% endblock %}
+
+{% block content %}
+<h1>Exams</h1>
+<ul>
+    {% for exam in exams %}
+    <li><a href="{% url 'mocktest_list' exam.id %}">{{ exam.name }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
