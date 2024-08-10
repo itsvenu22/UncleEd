@@ -51,13 +51,16 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 20px;
+    /* Added padding for mobile view */
 }
 
 .content {
     text-align: center;
     color: white;
     max-width: 600px;
-    padding: 40px;
+    padding: 20px;
+    /* Adjusted padding for mobile view */
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border-radius: 15px;
@@ -79,12 +82,14 @@ html {
 
 h1 {
     font-size: 3em;
+    /* Bold for PC view */
     margin-bottom: 20px;
     font-weight: 700;
 }
 
 p {
     font-size: 1.3em;
+    /* Bold for PC view */
     margin-bottom: 40px;
     font-weight: 300;
 }
@@ -105,6 +110,7 @@ p {
 .countdown div span {
     display: block;
     font-size: 3.5em;
+    /* Bold for PC view */
     font-weight: 700;
     line-height: 1;
     animation: pulse 1s infinite alternate;
@@ -123,6 +129,7 @@ p {
 .countdown div small {
     display: block;
     font-size: 1em;
+    /* Bold for PC view */
     font-weight: 300;
 }
 
@@ -139,6 +146,7 @@ input[type="email"] {
     border: none;
     border-radius: 30px;
     width: 300px;
+    /* Default width for desktop */
     font-size: 1em;
     margin-right: 10px;
     outline: none;
@@ -171,6 +179,33 @@ input::placeholder {
     font-weight: 300;
 }
 
+/* Media Queries for Mobile View */
+@media (max-width: 768px) {
+    form {
+        flex-direction: column;
+        /* Stack elements vertically */
+        align-items: stretch;
+        /* Stretch elements to full width */
+    }
+
+    input[type="text"],
+    input[type="email"] {
+        width: 100%;
+        /* Full width on mobile */
+        margin-right: 0;
+        /* Remove right margin on mobile */
+        margin-bottom: 10px;
+        /* Space between input and button */
+    }
+
+    button {
+        width: 100%;
+        /* Full width on mobile */
+        margin-top: 10px;
+        /* Space above the button */
+    }
+}
+
 /* Footer styles */
 footer {
     position: absolute;
@@ -179,6 +214,7 @@ footer {
     text-align: center;
     color: white;
     font-size: 1em;
+    /* Bold for PC view */
 }
 
 footer p {
@@ -219,90 +255,61 @@ footer p {
     }
 }
 
-/* Footer icons */
-.footer-icons {
-    margin: 10px 0;
-}
-
-.footer-icons img {
-    width: 35px;
-    margin: 0 5px;
-}
-
-.floating {
-    animation: float 3s ease-in-out infinite;
-}
-
-.spinning {
-    animation: spin 4s linear infinite;
-}
-
-.fluttering {
-    animation: flutter 2.5s ease-in-out infinite;
-}
-
-@keyframes float {
-
-    0%,
-    100% {
-        transform: translateY(0);
+/* Media Queries for Mobile View */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
     }
 
-    50% {
-        transform: translateY(-10px);
+    .content {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2.5em;
+        /* Adjusted for mobile view */
+    }
+
+    p {
+        font-size: 1em;
+        /* Adjusted for mobile view */
+    }
+
+    .countdown div span {
+        font-size: 2.5em;
+        /* Adjusted for mobile view */
+    }
+
+    .countdown div small {
+        font-size: 0.9em;
+        /* Adjusted for mobile view */
     }
 }
 
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.8em;
+        /* Further adjustment for smaller screens */
     }
 
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes flutter {
-
-    0%,
-    100% {
-        transform: translateY(0) rotate(0deg);
+    p {
+        font-size: 0.9em;
+        /* Further adjustment for smaller screens */
     }
 
-    50% {
-        transform: translateY(-10px) rotate(-10deg);
-    }
-}
-
-/* Cloud animations */
-.footer-clouds {
-    position: relative;
-    margin-top: 20px;
-}
-
-.cloud {
-    position: absolute;
-    width: 60px;
-    opacity: 0.6;
-}
-
-.cloud1 {
-    left: 20%;
-    animation: moveClouds 20s linear infinite;
-}
-
-.cloud2 {
-    left: 60%;
-    animation: moveClouds 25s linear infinite;
-}
-
-@keyframes moveClouds {
-    0% {
-        transform: translateX(-100%);
+    .countdown div span {
+        font-size: 1.5em;
+        /* Further adjustment for smaller screens */
     }
 
-    100% {
-        transform: translateX(100%);
+    .countdown div small {
+        font-size: 0.8em;
+        /* Further adjustment for smaller screens */
+    }
+
+    input[type="email"],
+    button {
+        width: 100%;
+        /* Full width on small screens */
     }
 }
