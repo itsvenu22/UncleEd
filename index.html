@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="background">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="content">
+                <h1>We're Almost There</h1>
+                <p>Something extraordinary is on the horizon. Stay connected to be the first to know!</p>
+                <div class="countdown">
+                    <div><span id="days"></span><small>Days</small></div>
+                    <div><span id="hours"></span><small>Hours</small></div>
+                    <div><span id="minutes"></span><small>Minutes</small></div>
+                    <div><span id="seconds"></span><small>Seconds</small></div>
+                </div>
+                <form action="https://formspree.io/f/xovawlpb" method="POST">
+                    <input type="email" name="email" placeholder="Enter your email to get notified" required
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                        title="Please enter a valid email address with a domain, e.g., name@example.com">
+                    <button type="submit">Notify Me</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
