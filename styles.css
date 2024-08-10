@@ -170,3 +170,139 @@ input::placeholder {
     color: #ddd;
     font-weight: 300;
 }
+
+/* Footer styles */
+footer {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: 1em;
+}
+
+footer p {
+    margin: 5px 0;
+    font-weight: 300;
+}
+
+.heart {
+    color: #ff6a6a;
+    animation: beat 1s infinite alternate;
+}
+
+.cute-face {
+    color: #fbc531;
+    font-size: 1.2em;
+    animation: wiggle 1.5s infinite;
+}
+
+@keyframes beat {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.2);
+    }
+}
+
+@keyframes wiggle {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(-10deg);
+    }
+}
+
+/* Footer icons */
+.footer-icons {
+    margin: 10px 0;
+}
+
+.footer-icons img {
+    width: 35px;
+    margin: 0 5px;
+}
+
+.floating {
+    animation: float 3s ease-in-out infinite;
+}
+
+.spinning {
+    animation: spin 4s linear infinite;
+}
+
+.fluttering {
+    animation: flutter 2.5s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes flutter {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(-10deg);
+    }
+}
+
+/* Cloud animations */
+.footer-clouds {
+    position: relative;
+    margin-top: 20px;
+}
+
+.cloud {
+    position: absolute;
+    width: 60px;
+    opacity: 0.6;
+}
+
+.cloud1 {
+    left: 20%;
+    animation: moveClouds 20s linear infinite;
+}
+
+.cloud2 {
+    left: 60%;
+    animation: moveClouds 25s linear infinite;
+}
+
+@keyframes moveClouds {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
