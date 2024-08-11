@@ -1,11 +1,9 @@
 from django.contrib import admin
-from .models import Exam, MockTest
+from .models import CustomUser, Exam, MockTest
 
-@admin.register(Exam)
-class ExamAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description')
+class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'mobile_number']
 
-@admin.register(MockTest)
-class MockTestAdmin(admin.ModelAdmin):
-    list_display = ('name', 'exam', 'link')
-    list_filter = ('exam',)
+admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(Exam)
+admin.site.register(MockTest)
