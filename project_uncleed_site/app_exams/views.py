@@ -107,3 +107,10 @@ def signup(request):
     else:
         form = CustomUserCreationForm()
     return render(request, 'signup.html', {'form': form})
+
+
+def contact(request):
+    return render(request, 'contacts.html',)
+
+def notfound404(request):
+    return render(request, 'notfound404.html',)

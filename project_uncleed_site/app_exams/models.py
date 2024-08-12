@@ -16,13 +16,13 @@ class CustomUser(AbstractUser):
 class Exam(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(null=True)
-
     def __str__(self):
         return self.title
 
 class MockTest(models.Model):
     exam = models.ForeignKey(Exam, related_name='mock_tests', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
+    link = models.URLField(max_length=255, default="youtube.com")
     is_premium = models.BooleanField(default=False)
 
     def __str__(self):
