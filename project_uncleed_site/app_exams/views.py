@@ -64,12 +64,15 @@ def home_view(request):
 
     return render(request, 'home.html', {'exams': exams, 'mock_tests': mock_tests})
 
+def home_view(request):
+    exams = Exam.objects.all()
+    return render(request, 'home.html', {'exams': exams})
+
 def exam_detail_view(request, pk):
     exam = get_object_or_404(Exam, pk=pk)
     mock_tests = exam.mock_tests.all()  # Get all mock tests related to this exam
 
     return render(request, 'exam_detail.html', {'exam': exam, 'mock_tests': mock_tests})
-
 
 class CustomPasswordResetView(PasswordResetView):
     template_name = 'password_reset.html'
@@ -87,9 +90,6 @@ def exam_detail_view(request, pk):
     mock_tests = exam.mock_tests.all()
     return render(request, 'exam_detail.html', {'exam': exam, 'mock_tests': mock_tests})
 
-def home_view(request):
-    exams = Exam.objects.all()
-    return render(request, 'home.html', {'exams': exams})
 
 def exam_detail_view(request, pk):
     exam = get_object_or_404(Exam, pk=pk)

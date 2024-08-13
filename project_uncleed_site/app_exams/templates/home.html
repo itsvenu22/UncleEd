@@ -353,8 +353,12 @@
             <a href="#mocktest-section">Mock Tests</a>
             <a href="/">About</a>
             <a href="http://127.0.0.1:9090/contact">Contact</a>
+            {% if user.is_authenticated %}
+            <a href="http://127.0.0.1:9090/logout">Logout</a>
+            {% else %}
             <a href="http://127.0.0.1:9090/login">Login</a>
             <a href="http://127.0.0.1:9090/register">Signup</a>
+            {% endif %}
         </div>
     </header>
 
