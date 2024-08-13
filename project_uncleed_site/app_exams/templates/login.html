@@ -10,51 +10,48 @@
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
         }
 
-        .login-container {
-            background-color: #ffffff;
-            padding: 40px 30px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-radius: 12px;
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 400px;
-            text-align: center;
         }
 
         h1 {
+            text-align: center;
             margin-bottom: 30px;
-            font-size: 2em;
-            color: #333;
+            color: #004d40;
+            font-weight: 700;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
         .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #555;
+            width: 100%;
         }
 
         input[type="text"],
         input[type="password"],
         input[type="email"] {
-            width: 100%;
-            padding: 12px;
+            padding: 15px;
             border: 1px solid #ccc;
-            border-radius: 8px;
+            border-radius: 50px;
             font-size: 1em;
-            transition: border-color 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         input[type="text"]:focus,
@@ -64,23 +61,24 @@
             outline: none;
         }
 
-        button {
-            width: 100%;
-            padding: 12px;
+        button[type="submit"] {
             background-color: #00796b;
-            border: none;
-            border-radius: 8px;
             color: white;
-            font-size: 1.2em;
+            border: none;
+            padding: 15px;
+            border-radius: 50px;
+            font-size: 1em;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            width: 100%;
         }
 
-        button:hover {
+        button[type="submit"]:hover {
             background-color: #004d40;
         }
 
         .forgot-password {
+            text-align: center;
             margin-top: 20px;
             font-size: 0.9em;
         }
@@ -88,6 +86,7 @@
         .forgot-password a {
             color: #00796b;
             text-decoration: none;
+            font-weight: 600;
             transition: color 0.3s ease;
         }
 
@@ -115,7 +114,7 @@
         }
 
         @media (max-width: 480px) {
-            .login-container {
+            .container {
                 padding: 20px;
                 box-shadow: none;
             }
@@ -128,7 +127,7 @@
 </head>
 
 <body>
-    <div class="login-container">
+    <div class="container">
         <h1>Login</h1>
         <div class="error-message">Invalid username or password</div>
         <form method="POST">

@@ -346,18 +346,18 @@
     <!-- Navigation Bar -->
     <header class="navbar">
         <div class="navbar-logo">
-            <a href="#">Uncleed</a>
+            <a href="/">Uncleed</a>
         </div>
         <div class="navbar-links">
             <a href="/">Home</a>
-            <a href="#mocktest-section">Mock Tests</a>
+            <a href="{% url 'home' %}#mocktest-section">Mock Tests</a>
             <a href="/">About</a>
-            <a href="http://127.0.0.1:9090/contact">Contact</a>
+            <a href="{% url 'contact' %}">Contact</a>
             {% if user.is_authenticated %}
-            <a href="http://127.0.0.1:9090/logout">Logout</a>
+            <a href="{% url 'logout' %}">Logout</a>
             {% else %}
-            <a href="http://127.0.0.1:9090/login">Login</a>
-            <a href="http://127.0.0.1:9090/register">Signup</a>
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Signup</a>
             {% endif %}
         </div>
     </header>
@@ -372,7 +372,7 @@
     <!-- Mock Test Section -->
     <section class="mocktest-section" id="mocktest-section">
         <div>
-            <h2>Top Free Mock Tests</h2>
+            <h2>Featured Exams</h2>
             <div class="mocktest-list">
                 {% for exam in exams %}
                 <div class="mocktest-item">
