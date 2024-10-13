@@ -273,6 +273,14 @@
                 {% else %}
                 <a href="{{ mock_test.link }}" class="card-link">Take Test</a>
                 {% endif %}
+
+                <!-- Add review link if user is authenticated -->
+                {% if user.is_authenticated %}
+                <a href="{% url 'add_review' mock_test.pk %}" class="card-link">Add/Edit Review</a>
+                <a href="{% url 'mock_test_reviews' mock_test.pk %}" class="card-link">View All Reviews</a>
+                {% else %}
+                <a href="{% url 'login' %}" class="login-link">Login to Add/Edit Review</a>
+                {% endif %}
             </div>
             {% empty %}
             <p>No mock tests available.</p>
