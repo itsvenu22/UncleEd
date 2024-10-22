@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ exam.title }} - Uncleed</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="/done16.png" type="image/x-icon">
+    <style>
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f4f4f4;
+            color: #333;
+            overflow-x: hidden;
+            transition: all 0.5s ease;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background-color: #ffffff;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 10;
+            transition: background-color 0.5s ease;
+        }
+
+        .navbar-logo a {
+            color: #004d40;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.5em;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-logo a:hover {
+            color: #00796b;
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-links a {
+            color: #004d40;
+            text-decoration: none;
+            margin: 0 20px;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .navbar-links a:hover {
+            color: #00796b;
+            transform: scale(1.1);
+        }
+
+        /* Page Title Section */
+        .page-title {
+            background: linear-gradient(135deg, #004d40, #00796b, #004d40);
+            background-size: 300% 300%;
+            animation: gradientMove 15s ease infinite;
+            padding: 100px 20px;
+            text-align: center;
+            color: white;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 0%;
+            }
+
+            50% {
+                background-position: 100% 100%;
+            }
+
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+
+        .page-title h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-title p {
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            font-weight: 400;
+            line-height: 1.7;
+            text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Content Section */
+        .content {
+            padding: 40px 5%;
+            background-color: #ffffff;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 30px;
+            margin: 60px 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .content:hover {
+            transform: scale(1.02);
+        }
+
+        .content h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #004d40;
+            font-weight: 700;
+        }
+
+        .content .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #004d40, #00796b);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: left;
+            font-size: 1.2em;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .card p {
+            font-size: 1em;
+            margin-bottom: 15px;
+            color: #e0f2f1;
+        }
+
+        .card a {
+            color: #ffcc80;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .card a:hover {
+            color: #ffd54f;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Back Link */
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #00796b;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-link:hover {
+            background-color: #004d40;
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #004d40;
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+            font-size: 1.1em;
+            position: relative;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #ffcc80;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #ffd54f;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="navbar-logo">
+            <a href="/">Uncleed</a>
+        </div>
+        <div class="navbar-links">
+            <a href="/">Home</a>
+            <a href="{% url 'home' %}#mocktest-section">Mock Tests</a>
+            <a href="/">About</a>
+            <a href="{% url 'contact' %}">Contact</a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Signup</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Page Title Section -->
+    <section class="page-title">
+        <h1>{{ exam.title }}</h1>
+        <p>{{ exam.description }}</p>
+    </section>
+
+    <!-- Content Section -->
+    <section class="content">
+        <h2>Mock Tests</h2>
+        <div class="card-container">
+            {% for mock_test in mock_tests %}
+            <div class="card">
+                <h3>{{ mock_test.title }}</h3>
+                <p>{{ mock_test.description }}</p>
+
+                {% if user.is_authenticated %}
+                <a href="{{ mock_test.link }}" class="card-link">Take Test</a>
+                <a href="{% url 'add_review' mock_test.id %}" class="review-button">Add Review</a>
+                {% elif mock_test.is_premium %}
+                <a href="{% url 'login' %}" class="login-link">Login to access this premium test</a>
+                {% else %}
+                <a href="{{ mock_test.link }}" class="card-link">Take Test</a>
+                {% endif %}
+
+            </div>
+            {% empty %}
+            <p>No mock tests available.</p>
+            {% endfor %}
+        </div>
+        <a href="{% url 'home' %}" class="back-link">Back to Exams</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Uncleed. All rights reserved.</p>
+        <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </footer>
+</body>
+
+</html>
