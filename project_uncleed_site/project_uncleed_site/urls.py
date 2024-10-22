@@ -1,9 +1,9 @@
 # project_uncleed_site/urls.py
-
 from django.contrib import admin
 from django.urls import path
 from app_exams import views
 from django.contrib.auth.views import PasswordResetDoneView, PasswordResetCompleteView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -18,4 +18,6 @@ urlpatterns = [
     path('password_reset_done/', PasswordResetDoneView.as_view(template_name='password_reset_done.html'), name='password_reset_done'),
     path('password_reset_complete/', PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), name='password_reset_complete'),
     path('exam/<int:pk>/', views.exam_detail_view, name='exam_detail'),
+    path('mocktest/<int:mock_test_id>/review/', views.add_review, name='add_review'),
+    path('exam/<int:pk>/', views.mock_test_detail, name='mock_test_detail'),  # Added this line
 ]

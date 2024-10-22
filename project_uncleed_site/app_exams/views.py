@@ -16,6 +16,11 @@ from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm
 from django.contrib.auth import login
 
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from .models import MockTest, Review
+from .forms import ReviewForm
+
 
 def register_view(request):
     if request.method == 'POST':
@@ -114,3 +119,33 @@ def contact(request):
 
 def notfound404(request):
     return render(request, 'notfound404.html',)
+
+
+################################
+
+def mock_test_detail(request, pk):
+    mock_test = get_object_or_404(MockTest, pk=pk)
+    if mock_test.is_premium and not request.user.is_authenticated:
+        return redirect('login')
+    return render(request, 'mock_test_detail.html', {'mock_test': mock_test})
+
+@login_required
+def add_review(request, mock_test_id):
+    mock_test = get_object_or_404(MockTest, id=mock_test_id)
+
+    # Check if the user has already reviewed this mock test
+    existing_review = Review.objects.filter(mock_test=mock_test, user=request.user).first()
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=existing_review)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.mock_test = mock_test
+            review.user = request.user
+            review.save()
+            # Redirect to the exam detail page of the respective mock test
+            return redirect('exam_detail', pk=mock_test.exam.id)  # Redirect to the exam detail view
+    else:
+        form = ReviewForm(instance=existing_review)
+
+    return render(request, 'reviews/add_review.html', {'form': form, 'mock_test': mock_test})
