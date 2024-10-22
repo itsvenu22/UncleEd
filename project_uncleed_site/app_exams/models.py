@@ -1,12 +1,11 @@
 from django.db import models
-<<<<<<< HEAD
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.conf import settings
 
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
-        """Create and return a `CustomUser` with an email, and password."""
+        """Create and return a CustomUser with an email, and password."""
         if not email:
             raise ValueError("The Email field must be set")
         email = self.normalize_email(email)
@@ -22,25 +21,30 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(email, password, **extra_fields)
 
+<<<<<<< HEAD
 =======
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth import get_user_model
 >>>>>>> 7a713cc (skeleton : review system)
+=======
+>>>>>>> 383dd17 (base(add review) : working ✅)
 
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     mobile_number = models.CharField(max_length=15)
     name = models.CharField(max_length=100)
 
-<<<<<<< HEAD
     username = None  # Remove the username field or set it to None
     USERNAME_FIELD = 'email'  # Set email as the username field
     REQUIRED_FIELDS = ['name', 'mobile_number']  # Other required fields
+<<<<<<< HEAD
 =======
     username = None
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name', 'mobile_number']
 >>>>>>> 7a713cc (skeleton : review system)
+=======
+>>>>>>> 383dd17 (base(add review) : working ✅)
 
     objects = CustomUserManager()  # Use the custom user manager
 
@@ -50,11 +54,13 @@ class CustomUser(AbstractUser):
 
 class Exam(models.Model):
     title = models.CharField(max_length=200)
-<<<<<<< HEAD
     description = models.TextField(null=True, default="No description provided")
+<<<<<<< HEAD
 =======
     description = models.TextField(null=True)
 >>>>>>> 7a713cc (skeleton : review system)
+=======
+>>>>>>> 383dd17 (base(add review) : working ✅)
 
     def __str__(self):
         return self.title
@@ -70,7 +76,6 @@ class MockTest(models.Model):
     def __str__(self):
         return self.title
 
-<<<<<<< HEAD
 
 class Review(models.Model):
     mock_test = models.ForeignKey(MockTest, on_delete=models.CASCADE, related_name="reviews")
@@ -93,6 +98,7 @@ class Review(models.Model):
 
     def __str__(self):
         return f"Review by {self.user.username} for {self.mock_test.title} (Exam: {self.mock_test.exam.title})"
+<<<<<<< HEAD
 =======
 class Review(models.Model):
     mock_test = models.ForeignKey(MockTest, related_name='reviews', on_delete=models.CASCADE)
@@ -126,3 +132,5 @@ class Review(models.Model):
         ])
         return total_stars / 7.0  # Average across all seven criteria
 >>>>>>> 7a713cc (skeleton : review system)
+=======
+>>>>>>> 383dd17 (base(add review) : working ✅)
