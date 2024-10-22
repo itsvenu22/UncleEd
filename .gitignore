@@ -3,8 +3,8 @@
 env*
 =======
 uncleed_env
-credentials.py
 env*
+<<<<<<< HEAD
 >>>>>>> 7a713cc (skeleton : review system)
 =======
 uncleed_env
@@ -12,3 +12,5 @@ credentials.py
 env*
 BACKUP*
 >>>>>>> 383dd17 (base(add review) : working ✅)
+=======
+>>>>>>> bbf3d6f (modify README.md)
