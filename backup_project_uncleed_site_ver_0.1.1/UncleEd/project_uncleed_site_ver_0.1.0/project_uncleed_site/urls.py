@@ -1,0 +1,21 @@
+# project_uncleed_site/urls.py
+
+from django.contrib import admin
+from django.urls import path
+from app_exams import views
+from django.contrib.auth.views import PasswordResetDoneView, PasswordResetCompleteView
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', views.home_view, name='home'),
+    path('contact/', views.contact, name='contact'),
+    path('404/', views.notfound404, name='notfound404'),
+    path('register/', views.register_view, name='register'),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
+    path('password_reset/', views.CustomPasswordResetView.as_view(), name='password_reset'),
+    path('password_reset_confirm/<uidb64>/<token>/', views.CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('password_reset_done/', PasswordResetDoneView.as_view(template_name='password_reset_done.html'), name='password_reset_done'),
+    path('password_reset_complete/', PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), name='password_reset_complete'),
+    path('exam/<int:pk>/', views.exam_detail_view, name='exam_detail'),
+]
