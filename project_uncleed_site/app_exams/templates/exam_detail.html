@@ -264,25 +264,16 @@
             <div class="card">
                 <h3>{{ mock_test.title }}</h3>
                 <p>{{ mock_test.description }}</p>
-                {% if mock_test.is_premium %}
+
                 {% if user.is_authenticated %}
                 <a href="{{ mock_test.link }}" class="card-link">Take Test</a>
                 <a href="{% url 'add_review' mock_test.id %}" class="review-button">Add Review</a>
-                {% else %}
+                {% elif mock_test.is_premium %}
                 <a href="{% url 'login' %}" class="login-link">Login to access this premium test</a>
-                {% endif %}
                 {% else %}
                 <a href="{{ mock_test.link }}" class="card-link">Take Test</a>
-                <a href="{% url 'add_review' mock_test.id %}" class="review-button">Add Review</a>
                 {% endif %}
 
-                <!-- Add review link if user is authenticated -->
-                {% if user.is_authenticated %}
-                <a href="{% url 'add_review' mock_test.pk %}" class="card-link">Add/Edit Review</a>
-                <a href="{% url 'mock_test_reviews' mock_test.pk %}" class="card-link">View All Reviews</a>
-                {% else %}
-                <a href="{% url 'login' %}" class="login-link">Login to Add/Edit Review</a>
-                {% endif %}
             </div>
             {% empty %}
             <p>No mock tests available.</p>

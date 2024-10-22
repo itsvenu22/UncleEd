@@ -10,7 +10,6 @@ class CustomUserAdmin(admin.ModelAdmin):
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Exam)
 admin.site.register(MockTest)
-<<<<<<< HEAD
 
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('user', 'mock_test', 'get_exam_title', 'created_at')
@@ -20,6 +19,3 @@ class ReviewAdmin(admin.ModelAdmin):
     get_exam_title.short_description = 'Exam Title'
 
 admin.site.register(Review, ReviewAdmin)
-=======
-admin.site.register(Review)
->>>>>>> 7a713ccbfb3b363442bcc5d926b41adbb2b735cc

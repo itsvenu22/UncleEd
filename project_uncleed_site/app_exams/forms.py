@@ -1,6 +1,5 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-<<<<<<< HEAD
 from .models import CustomUser
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
@@ -9,9 +8,6 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUser
 from django import forms
 from .models import Review
-=======
-from .models import CustomUser, Review
->>>>>>> 7a713ccbfb3b363442bcc5d926b41adbb2b735cc
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
@@ -24,7 +20,6 @@ class CustomAuthenticationForm(AuthenticationForm):
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
-<<<<<<< HEAD
         fields = ['characteristic_1', 'characteristic_2', 'characteristic_3',
                   'characteristic_4', 'characteristic_5', 'characteristic_6',
                   'characteristic_7', 'feedback']
@@ -38,18 +33,3 @@ class ReviewForm(forms.ModelForm):
             'characteristic_7': forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)]),
             'feedback': forms.Textarea(attrs={'rows': 4}),
         }
-=======
-        fields = [
-            'description', 'question_quality', 'topic_hardness', 'preparation_level',
-            'time_management', 'difficulty_balance', 'syllabus_coverage', 'practical_relevance'
-        ]
-        widgets = {
-            'question_quality': forms.Select(choices=[(i, i) for i in range(1, 6)]),
-            'topic_hardness': forms.Select(choices=[(i, i) for i in range(1, 6)]),
-            'preparation_level': forms.Select(choices=[(i, i) for i in range(1, 6)]),
-            'time_management': forms.Select(choices=[(i, i) for i in range(1, 6)]),
-            'difficulty_balance': forms.Select(choices=[(i, i) for i in range(1, 6)]),
-            'syllabus_coverage': forms.Select(choices=[(i, i) for i in range(1, 6)]),
-            'practical_relevance': forms.Select(choices=[(i, i) for i in range(1, 6)]),
-        }
->>>>>>> 7a713ccbfb3b363442bcc5d926b41adbb2b735cc
