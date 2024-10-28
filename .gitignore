@@ -5,6 +5,7 @@ env*
 uncleed_env
 env*
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 7a713cc (skeleton : review system)
 =======
 uncleed_env
@@ -14,3 +15,7 @@ BACKUP*
 >>>>>>> 383dd17 (base(add review) : working ✅)
 =======
 >>>>>>> bbf3d6f (modify README.md)
+=======
+db.sqlite3
+__pycache__
+>>>>>>> 863ff91 (minor bug fixes)
