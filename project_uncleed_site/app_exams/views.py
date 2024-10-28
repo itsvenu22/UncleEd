@@ -67,7 +67,8 @@ def notfound404(request):
 @login_required
 def add_review(request, mock_test_id):
     mock_test = get_object_or_404(MockTest, id=mock_test_id)
-    
+    exams = Exam.objects.all()
+    mock_tests = MockTest.objects.all()
     # Check if the user has already reviewed this mock test
     existing_review = Review.objects.filter(mock_test=mock_test, user=request.user).first()
     
@@ -82,4 +83,5 @@ def add_review(request, mock_test_id):
     else:
         form = ReviewForm(instance=existing_review)
     
-    return render(request, 'reviews/add_review.html', {'form': form, 'mock_test': mock_test})
+    return render(request, 'reviews/add_review.html', {'form': form, 'mock_test': mock_test, 'exam': exams, 'mock_tests': mock_tests})
+
