@@ -18,6 +18,7 @@ urlpatterns = [
     path('exam/<int:pk>/', views.exam_detail_view, name='exam_detail'),
     path('mocktest/<int:mock_test_id>/review/', views.add_review, name='add_review'),
 <<<<<<< HEAD
+<<<<<<< HEAD
     path('exam/<int:pk>/', views.mock_test_detail, name='mock_test_detail'),  # Added this line
 =======
     path('exam/<int:mock_test_id>/add_review/', views.add_review, name='add_review'),
@@ -27,4 +28,10 @@ urlpatterns = [
 =======
     path('mocktest/<int:pk>/', views.mock_test_detail, name='mock_test_detail'),
 >>>>>>> 383dd17 (base(add review) : working ✅)
+=======
+    path('mocktest/<int:mock_test_id>/your-reviews/', views.user_reviews, name='user_reviews'),  # Added line
+    path('mocktest/<int:pk>/', views.mock_test_detail, name='mock_test_detail'),
+    path('mocktest/<int:mock_test_id>/all-reviews/', views.all_reviews, name='all_reviews'),  # Added line
+
+>>>>>>> e9f76cf (mock reviews with stars)
 ]

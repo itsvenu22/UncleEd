@@ -9,8 +9,11 @@ from django.contrib.auth.decorators import login_required
 >>>>>>> 7a713cc (skeleton : review system)
 =======
 
+<<<<<<< HEAD
 >>>>>>> 383dd17 (base(add review) : working ✅)
 
+=======
+>>>>>>> e9f76cf (mock reviews with stars)
 def register_view(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -93,6 +96,7 @@ def add_review(request, mock_test_id):
     if not request.user.is_authenticated:
         return redirect('login')
 
+<<<<<<< HEAD
     if request.method == 'POST':
         description = request.POST.get('description')
         question_quality = request.POST.get('question_quality', 0)
@@ -168,3 +172,28 @@ def mock_test_reviews(request, pk):
 =======
 
 >>>>>>> 0a2f3fc (review page : complete ✅)
+=======
+@login_required
+def user_reviews(request, mock_test_id):
+    mock_test = get_object_or_404(MockTest, id=mock_test_id)
+    # Fetch reviews by the current user for this mock test
+    reviews = Review.objects.filter(mock_test=mock_test, user=request.user)
+    star_range = [1, 2, 3, 4, 5]  # This will be used for star ratings
+
+    return render(request, 'reviews/user_reviews.html', {
+        'mock_test': mock_test,
+        'reviews': reviews,
+        'star_range': star_range,
+        })
+
+def all_reviews(request, mock_test_id):
+    mock_test = get_object_or_404(MockTest, id=mock_test_id)
+    reviews = Review.objects.filter(mock_test=mock_test)
+    star_range = [1, 2, 3, 4, 5]  # This will be used for star ratings
+
+    return render(request, 'reviews/all_reviews.html', {
+        'mock_test': mock_test,
+        'reviews': reviews,
+        'star_range': star_range,  # Pass the star range to the template
+    })
+>>>>>>> e9f76cf (mock reviews with stars)
