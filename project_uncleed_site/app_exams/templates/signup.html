@@ -3,6 +3,27 @@
 
 <head>
     <title>Signup</title>
+    <style>
+        /* Back Link */
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #00796b;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-link:hover {
+            background-color: #004d40;
+            transform: translateY(-3px);
+        }
+    </style>
 </head>
 
 <body>
@@ -11,7 +32,12 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Signup</button>
+        <!-- Centered Back Link -->
+        <div class="centered">
+            <a href="{% url 'home' %}" class="back-link">Back to Home</a>
+        </div>
     </form>
+
 </body>
 
 </html>

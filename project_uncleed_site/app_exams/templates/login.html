@@ -123,6 +123,34 @@
                 font-size: 1.5em;
             }
         }
+
+        /* Centered Back Link */
+        .centered {
+            text-align: center;
+            /* Centers the text inside the div */
+            margin-top: 20px;
+            /* Adds spacing above the button */
+        }
+
+        /* Back Link */
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #00796b;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-link:hover {
+            background-color: #004d40;
+            transform: translateY(-3px);
+        }
     </style>
 </head>
 
@@ -144,6 +172,11 @@
         </form>
         <p class="forgot-password"><a href="{% url 'password_reset' %}">Forgot Password?</a></p>
         <p class="forgot-password">Don't have an account? <a href="{% url 'register' %}">Sign Up!</a></p>
+
+        <!-- Centered Back Link -->
+        <div class="centered">
+            <a href="{% url 'home' %}" class="back-link">Back to Home</a>
+        </div>
     </div>
 </body>
 
