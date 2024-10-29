@@ -159,5 +159,8 @@ def mock_test_reviews(request, pk):
 >>>>>>> 383dd17 (base(add review) : working ✅)
 =======
     return render(request, 'reviews/add_review.html', {'form': form, 'mock_test': mock_test, 'exam': exams, 'mock_tests': mock_tests})
+<<<<<<< HEAD
 
 >>>>>>> 863ff91 (minor bug fixes)
+=======
+>>>>>>> c226e4a (fallback commit - working ☑)

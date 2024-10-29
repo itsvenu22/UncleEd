@@ -97,6 +97,7 @@ class Review(models.Model):
         unique_together = ('mock_test', 'user')
 
     def __str__(self):
+<<<<<<< HEAD
         return f"Review by {self.user.username} for {self.mock_test.title} (Exam: {self.mock_test.exam.title})"
 <<<<<<< HEAD
 =======
@@ -134,3 +135,6 @@ class Review(models.Model):
 >>>>>>> 7a713cc (skeleton : review system)
 =======
 >>>>>>> 383dd17 (base(add review) : working ✅)
+=======
+        return f"Review by {self.user.username} for {self.mock_test.title} (Exam: {self.mock_test.exam.title})"
+>>>>>>> c226e4a (fallback commit - working ☑)

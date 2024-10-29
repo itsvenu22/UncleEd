@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 env*
 =======
 uncleed_env
@@ -19,3 +20,6 @@ BACKUP*
 db.sqlite3
 __pycache__
 >>>>>>> 863ff91 (minor bug fixes)
+=======
+env*
+>>>>>>> c226e4a (fallback commit - working ☑)

@@ -38,6 +38,7 @@ class ReviewForm(forms.ModelForm):
             'characteristic_6': forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)]),
             'characteristic_7': forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)]),
             'feedback': forms.Textarea(attrs={'rows': 4}),
+<<<<<<< HEAD
         }
 <<<<<<< HEAD
 =======
@@ -57,3 +58,6 @@ class ReviewForm(forms.ModelForm):
 >>>>>>> 7a713cc (skeleton : review system)
 =======
 >>>>>>> 383dd17 (base(add review) : working ✅)
+=======
+        }
+>>>>>>> c226e4a (fallback commit - working ☑)
