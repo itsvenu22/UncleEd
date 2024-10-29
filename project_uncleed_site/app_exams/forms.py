@@ -30,13 +30,13 @@ class ReviewForm(forms.ModelForm):
                   'characteristic_4', 'characteristic_5', 'characteristic_6',
                   'characteristic_7', 'feedback']
         widgets = {
-            'characteristic_1': forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)]),
-            'characteristic_2': forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)]),
-            'characteristic_3': forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)]),
-            'characteristic_4': forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)]),
-            'characteristic_5': forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)]),
-            'characteristic_6': forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)]),
-            'characteristic_7': forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)]),
+            'characteristic_1': forms.Select(choices=[(i, str(i)) for i in range(1, 6)]),
+            'characteristic_2': forms.Select(choices=[(i, str(i)) for i in range(1, 6)]),
+            'characteristic_3': forms.Select(choices=[(i, str(i)) for i in range(1, 6)]),
+            'characteristic_4': forms.Select(choices=[(i, str(i)) for i in range(1, 6)]),
+            'characteristic_5': forms.Select(choices=[(i, str(i)) for i in range(1, 6)]),
+            'characteristic_6': forms.Select(choices=[(i, str(i)) for i in range(1, 6)]),
+            'characteristic_7': forms.Select(choices=[(i, str(i)) for i in range(1, 6)]),
             'feedback': forms.Textarea(attrs={'rows': 4}),
 <<<<<<< HEAD
         }
