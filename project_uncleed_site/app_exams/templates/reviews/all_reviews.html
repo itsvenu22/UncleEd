@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Reviews for {{ mock_test.title }} - Uncleed</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="/done16.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f4f4f4;
+            color: #333;
+            overflow-x: hidden;
+            transition: all 0.5s ease;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background-color: #ffffff;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 10;
+            transition: background-color 0.5s ease;
+        }
+
+        .navbar-logo a {
+            color: #004d40;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.5em;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-links a {
+            color: #004d40;
+            text-decoration: none;
+            margin: 0 20px;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .navbar-links a:hover {
+            color: #00796b;
+            transform: scale(1.1);
+        }
+
+        /* Page Title Section */
+        .page-title {
+            background: linear-gradient(135deg, #004d40, #00796b, #004d40);
+            background-size: 300% 300%;
+            padding: 100px 20px;
+            text-align: center;
+            color: white;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Reviews Section */
+        .reviews-container {
+            padding: 60px 5%;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 30px;
+            margin: 60px 10px;
+            max-width: 800px;
+            margin: 0 auto 60px auto;
+            transition: transform 0.3s ease;
+        }
+
+        .reviews-container:hover {
+            transform: scale(1.02);
+        }
+
+        h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #004d40;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        li strong {
+            color: #00796b;
+        }
+
+        /* Star Rating Styling */
+        .star-rating {
+            color: #FFD700;
+            /* Gold color for filled stars */
+            font-size: 1.5em;
+            /* Increased font size for stars */
+            display: inline-block;
+            /* Ensures stars align nicely */
+            vertical-align: middle;
+            /* Aligns stars vertically with the text */
+        }
+
+        .star-rating .far {
+            color: #dcdcdc;
+            /* Light gray for unfilled stars */
+        }
+
+        /* Container for star rating and labels */
+        .rating-container {
+            display: flex;
+            /* Use flexbox for alignment */
+            align-items: center;
+            /* Center items vertically */
+            margin-bottom: 10px;
+            /* Spacing between rating sections */
+            justify-content: space-between;
+            /* Aligns items with space between them */
+        }
+
+        .rating-label {
+            margin-right: 10px;
+            /* Spacing between label and stars */
+            font-weight: 600;
+            /* Bold the labels */
+            color: #333;
+            /* Dark color for labels */
+            width: 150px;
+            /* Fixed width for labels to ensure alignment */
+        }
+
+        /* Ensuring stars have spacing */
+        .star-rating i {
+            margin-right: 3px;
+            /* Space between stars */
+        }
+
+        /* Back Link */
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background-color: #00796b;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .back-link:hover {
+            background-color: #004d40;
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #004d40;
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+            font-size: 1.1em;
+            position: relative;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #ffcc80;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #ffd54f;
+        }
+
+        /* Recommended Badge */
+        .recommended-badge {
+            padding: 8px 12px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .recommended-badge.red {
+            background-color: #f44336;
+            /* Red for 1 and 2 */
+        }
+
+        .recommended-badge.yellow {
+            background-color: #ffeb3b;
+            /* Yellow for 3 */
+            color: #333;
+            /* Dark text for yellow */
+        }
+
+        .recommended-badge.green {
+            background-color: #4caf50;
+            /* Green for 4 and 5 */
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="navbar-logo">
+            <a href="/">Uncleed</a>
+        </div>
+        <div class="navbar-links">
+            <a href="/">Home</a>
+            <a href="{% url 'home' %}#mocktest-section">Mock Tests</a>
+            <a href="/">About</a>
+            <a href="{% url 'contact' %}">Contact</a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Signup</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Page Title -->
+    <section class="page-title">
+        <h1>All Reviews for {{ mock_test.title }}</h1>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews-container">
+        <h2>All Reviews</h2>
+        {% if reviews %}
+        <ul>
+            {% for review in reviews %}
+            <li>
+                <strong>Feedback:</strong> {{ review.feedback }}<br>
+                <strong>User Ratings:</strong><br>
+                <br>
+
+                <div class="rating-container">
+                    <span class="rating-label">Clarity:</span>
+                    <span class="star-rating">
+                        {% for i in star_range %}
+                        <i class="{% if review.characteristic_1 >= i %}fas{% else %}far{% endif %} fa-star"></i>
+                        {% endfor %}
+                    </span>
+                </div>
+                <div class="rating-container">
+                    <span class="rating-label">Difficulty:</span>
+                    <span class="star-rating">
+                        {% for i in star_range %}
+                        <i class="{% if review.characteristic_2 >= i %}fas{% else %}far{% endif %} fa-star"></i>
+                        {% endfor %}
+                    </span>
+                </div>
+                <div class="rating-container">
+                    <span class="rating-label">Relevance:</span>
+                    <span class="star-rating">
+                        {% for i in star_range %}
+                        <i class="{% if review.characteristic_3 >= i %}fas{% else %}far{% endif %} fa-star"></i>
+                        {% endfor %}
+                    </span>
+                </div>
+                <div class="rating-container">
+                    <span class="rating-label">Quality:</span>
+                    <span class="star-rating">
+                        {% for i in star_range %}
+                        <i class="{% if review.characteristic_4 >= i %}fas{% else %}far{% endif %} fa-star"></i>
+                        {% endfor %}
+                    </span>
+                </div>
+                <div class="rating-container">
+                    <span class="rating-label">Timeliness:</span>
+                    <span class="star-rating">
+                        {% for i in star_range %}
+                        <i class="{% if review.characteristic_5 >= i %}fas{% else %}far{% endif %} fa-star"></i>
+                        {% endfor %}
+                    </span>
+                </div>
+                <div class="rating-container">
+                    <span class="rating-label">Overall:</span>
+                    <span class="star-rating">
+                        {% for i in star_range %}
+                        <i class="{% if review.characteristic_6 >= i %}fas{% else %}far{% endif %} fa-star"></i>
+                        {% endfor %}
+                    </span>
+                </div>
+                <div class="rating-container">
+                    <span class="rating-label">Recommended:</span>
+                    <span class="recommended-badge 
+                        {% if review.characteristic_7 == 1 or review.characteristic_7 == 2 %}red
+                        {% elif review.characteristic_7 == 3 %}yellow
+                        {% elif review.characteristic_7 == 4 or review.characteristic_7 == 5 %}green
+                        {% endif %}">
+                        {{ review.characteristic_7 }}/5
+                    </span>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No reviews available for this mock test.</p>
+        {% endif %}
+        <!-- Centered Back Link -->
+        <div style="text-align: center;">
+            <a href="{% url 'exam_detail' mock_test.exam.id %}" class="back-link">Back to Mock Tests</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Uncleed. All rights reserved.</p>
+        <p><a href="/">Privacy Policy</a> | <a href="/">Terms of Service</a></p>
+    </footer>
+
+</body>
+
+</html>

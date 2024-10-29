@@ -6,7 +6,6 @@ from .forms import CustomUserCreationForm, CustomAuthenticationForm, ReviewForm
 from .models import Exam, MockTest, Review
 from django.contrib.auth.decorators import login_required
 
-
 def register_view(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -85,3 +84,26 @@ def add_review(request, mock_test_id):
     
     return render(request, 'reviews/add_review.html', {'form': form, 'mock_test': mock_test, 'exam': exams, 'mock_tests': mock_tests})
 
+@login_required
+def user_reviews(request, mock_test_id):
+    mock_test = get_object_or_404(MockTest, id=mock_test_id)
+    # Fetch reviews by the current user for this mock test
+    reviews = Review.objects.filter(mock_test=mock_test, user=request.user)
+    star_range = [1, 2, 3, 4, 5]  # This will be used for star ratings
+
+    return render(request, 'reviews/user_reviews.html', {
+        'mock_test': mock_test,
+        'reviews': reviews,
+        'star_range': star_range,
+        })
+
+def all_reviews(request, mock_test_id):
+    mock_test = get_object_or_404(MockTest, id=mock_test_id)
+    reviews = Review.objects.filter(mock_test=mock_test)
+    star_range = [1, 2, 3, 4, 5]  # This will be used for star ratings
+
+    return render(request, 'reviews/all_reviews.html', {
+        'mock_test': mock_test,
+        'reviews': reviews,
+        'star_range': star_range,  # Pass the star range to the template
+    })

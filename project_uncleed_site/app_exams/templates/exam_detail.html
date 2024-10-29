@@ -170,16 +170,37 @@
             color: #e0f2f1;
         }
 
-        .card a {
-            color: #ffcc80;
+        /* Enhanced Button Link Styling */
+        .button-link {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #00796b;
+            /* Solid muted green */
+            color: #ffffff;
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
+            font-weight: 600;
+            /* Slightly bolder for sophistication */
+            border-radius: 25px;
+            /* Soft rounded edges for elegance */
+            font-size: 0.85em;
+            /* Reduced font size for a more subtle look */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            /* Soft shadow for subtle elevation */
         }
 
-        .card a:hover {
-            color: #ffd54f;
+        .button-link:hover {
+            background-color: #00574b;
+            /* Darker green on hover */
+            background-image: linear-gradient(to bottom right, #00574b, #004d40);
+            /* Subtle gradient on hover */
+            transform: translateY(-2px);
+            /* Gentle lift effect */
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            /* Slightly increased shadow on hover */
         }
+
 
         .card:hover {
             transform: translateY(-10px);
@@ -266,12 +287,14 @@
                 <p>{{ mock_test.description }}</p>
 
                 {% if user.is_authenticated %}
-                <a href="{{ mock_test.link }}" class="card-link">Take Test</a>
-                <a href="{% url 'add_review' mock_test.id %}" class="review-button">Add Review</a>
+                <a href="{{ mock_test.link }}" class="button-link">Take Test</a>
+                <a href="{% url 'add_review' mock_test.id %}" class="button-link">Add Review</a>
+                <a href="{% url 'user_reviews' mock_test.id %}" class="button-link">Your Reviews</a>
+                <a href="{% url 'all_reviews' mock_test.id %}" class="button-link">All Reviews</a>
                 {% elif mock_test.is_premium %}
-                <a href="{% url 'login' %}" class="login-link">Login to access this premium test</a>
+                <a href="{% url 'login' %}" class="button-link">Login to access this premium test</a>
                 {% else %}
-                <a href="{{ mock_test.link }}" class="card-link">Take Test</a>
+                <a href="{{ mock_test.link }}" class="button-link">Take Test</a>
                 {% endif %}
 
             </div>

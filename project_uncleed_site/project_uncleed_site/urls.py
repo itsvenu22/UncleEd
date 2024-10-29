@@ -17,5 +17,8 @@ urlpatterns = [
     path('password_reset_complete/', PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), name='password_reset_complete'),
     path('exam/<int:pk>/', views.exam_detail_view, name='exam_detail'),
     path('mocktest/<int:mock_test_id>/review/', views.add_review, name='add_review'),
+    path('mocktest/<int:mock_test_id>/your-reviews/', views.user_reviews, name='user_reviews'),  # Added line
     path('mocktest/<int:pk>/', views.mock_test_detail, name='mock_test_detail'),
+    path('mocktest/<int:mock_test_id>/all-reviews/', views.all_reviews, name='all_reviews'),  # Added line
+
 ]
