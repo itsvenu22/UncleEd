@@ -61,13 +61,13 @@ class Review(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     # Rating fields
-    characteristic_1 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])
-    characteristic_2 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])
-    characteristic_3 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])
-    characteristic_4 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])
-    characteristic_5 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])
-    characteristic_6 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])
-    characteristic_7 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])
+    characteristic_1 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name="Clarity of Concepts (1-5)")
+    characteristic_2 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name="Difficulty Appropriateness (1-5)")
+    characteristic_3 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name="Relevance to Exam Pattern (1-5)")
+    characteristic_4 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name="Quality of Questions (1-5)")
+    characteristic_5 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name="Time Management (1-5)")
+    characteristic_6 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name="Overall Preparation Value (1-5)")
+    characteristic_7 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name="Likelihood of Recommending (1-5)")
 
     feedback = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
