@@ -84,4 +84,3 @@ def add_review(request, mock_test_id):
         form = ReviewForm(instance=existing_review)
     
     return render(request, 'reviews/add_review.html', {'form': form, 'mock_test': mock_test, 'exam': exams, 'mock_tests': mock_tests})
-
