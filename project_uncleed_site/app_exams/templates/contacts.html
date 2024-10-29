@@ -93,20 +93,50 @@
             border-color: #00796b;
         }
 
-        .contact-form button {
-            background-color: #00796b;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.2em;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        .button-container {
+            display: flex;
+            gap: 10px;
+            /* Space between buttons */
         }
 
-        .contact-form button:hover {
+        button {
+            padding: 15px 30px;
+            background-color: #00796b;
+            color: white;
+            font-weight: 600;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        button:hover {
             background-color: #004d40;
+            transform: translateY(-3px);
+        }
+
+        .back-link {
+            padding: 15px 30px;
+            background-color: #00796b;
+            color: white;
+            font-weight: 600;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2em;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            display: flex;
+            /* Flex to center contents if necessary */
+            align-items: center;
+            /* Centering text vertically */
+            justify-content: center;
+            /* Centering text horizontally */
+        }
+
+        .back-link:hover {
+            background-color: #004d40;
+            transform: translateY(-3px);
         }
     </style>
 </head>
@@ -125,7 +155,10 @@
             <input type="text" name="name" placeholder="Your Name" required>
             <input type="email" name="email" placeholder="Your Email" required>
             <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
-            <button type="submit">Send Message</button>
+            <div class="button-container">
+                <button type="submit">Send Message</button>
+                <a href="{% url 'home' %}" class="back-link">Back to Home</a>
+            </div>
         </div>
     </div>
 </body>

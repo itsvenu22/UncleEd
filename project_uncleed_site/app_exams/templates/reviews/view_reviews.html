@@ -1,0 +1,45 @@
+<!-- templates/reviews/view_reviews.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Reviews for {{ mock_test.title }}</h2>
+
+<h3>Your Reviews</h3>
+{% if user_reviews %}
+{% for review in user_reviews %}
+<div>
+    <p>Clarity of Concepts: {{ review.characteristic_1 }}</p>
+    <p>Difficulty Appropriateness: {{ review.characteristic_2 }}</p>
+    <p>Relevance to Exam Pattern: {{ review.characteristic_3 }}</p>
+    <p>Quality of Questions: {{ review.characteristic_4 }}</p>
+    <p>Time Management: {{ review.characteristic_5 }}</p>
+    <p>Overall Preparation Value: {{ review.characteristic_6 }}</p>
+    <p>Likelihood of Recommending: {{ review.characteristic_7 }}</p>
+    <p>Feedback: {{ review.feedback }}</p>
+    <p>Reviewed on: {{ review.created_at }}</p>
+</div>
+<hr>
+{% endfor %}
+{% else %}
+<p>You have not reviewed this mock test yet.</p>
+{% endif %}
+
+<h3>All Reviews</h3>
+{% for review in all_reviews %}
+<div>
+    <p>Reviewed by: {{ review.user.name }}</p>
+    <p>Clarity of Concepts: {{ review.characteristic_1 }}</p>
+    <p>Difficulty Appropriateness: {{ review.characteristic_2 }}</p>
+    <p>Relevance to Exam Pattern: {{ review.characteristic_3 }}</p>
+    <p>Quality of Questions: {{ review.characteristic_4 }}</p>
+    <p>Time Management: {{ review.characteristic_5 }}</p>
+    <p>Overall Preparation Value: {{ review.characteristic_6 }}</p>
+    <p>Likelihood of Recommending: {{ review.characteristic_7 }}</p>
+    <p>Feedback: {{ review.feedback }}</p>
+    <p>Reviewed on: {{ review.created_at }}</p>
+</div>
+<hr>
+{% empty %}
+<p>No reviews have been submitted for this mock test yet.</p>
+{% endfor %}
+{% endblock %}

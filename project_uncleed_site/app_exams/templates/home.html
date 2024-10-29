@@ -339,6 +339,37 @@
         footer a:hover {
             color: #ffd54f;
         }
+
+        /* Enhanced Button Link Styling */
+        #button-link {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #00796b;
+            /* Solid muted green */
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            /* Slightly bolder for sophistication */
+            border-radius: 25px;
+            /* Soft rounded edges for elegance */
+            font-size: 0.85em;
+            /* Reduced font size for a more subtle look */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            /* Soft shadow for subtle elevation */
+        }
+
+        #button-link:hover {
+            background-color: #00574b;
+            /* Darker green on hover */
+            background-image: linear-gradient(to bottom right, #00574b, #004d40);
+            /* Subtle gradient on hover */
+            transform: translateY(-2px);
+            /* Gentle lift effect */
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            /* Slightly increased shadow on hover */
+        }
     </style>
 </head>
 
@@ -378,7 +409,7 @@
                 <div class="mocktest-item">
                     <h3>{{ exam.title }}</h3>
                     <p>{{ exam.description }}</p>
-                    <a href="{% url 'exam_detail' exam.pk %}">View Mock Tests</a>
+                    <a href="{% url 'exam_detail' exam.pk %}" id="button-link">View Mock Tests</a>
                 </div>
                 {% empty %}
                 <p>No mock tests available at the moment.</p>
