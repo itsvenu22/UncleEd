@@ -10,10 +10,16 @@ from django.contrib.auth.decorators import login_required
 =======
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 383dd17 (base(add review) : working ✅)
 
 =======
 >>>>>>> e9f76cf (mock reviews with stars)
+=======
+from django.db.models import Avg
+
+
+>>>>>>> 3908468 (fallback : whole review for exams)
 def register_view(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -196,4 +202,53 @@ def all_reviews(request, mock_test_id):
         'reviews': reviews,
         'star_range': star_range,  # Pass the star range to the template
     })
+<<<<<<< HEAD
 >>>>>>> e9f76cf (mock reviews with stars)
+=======
+
+
+def combined_reviews_view(request, exam_id):
+    exam = get_object_or_404(Exam, id=exam_id)
+    mock_tests = MockTest.objects.filter(exam=exam)
+
+    combined_reviews = {}
+    for mock_test in mock_tests:
+        reviews = Review.objects.filter(mock_test=mock_test)
+
+        # Initialize the average dictionary
+        avg_reviews = {
+            'avg_clarity': None,
+            'avg_difficulty': None,
+            'avg_relevance': None,
+            'avg_quality': None,
+            'avg_time_management': None,
+            'avg_preparation_value': None,
+            'avg_recommendation': None,
+        }
+
+        # Calculate averages if there are reviews
+        if reviews.exists():
+            avg_reviews['avg_clarity'] = reviews.aggregate(Avg('characteristic_1'))['characteristic_1__avg']
+            avg_reviews['avg_difficulty'] = reviews.aggregate(Avg('characteristic_2'))['characteristic_2__avg']
+            avg_reviews['avg_relevance'] = reviews.aggregate(Avg('characteristic_3'))['characteristic_3__avg']
+            avg_reviews['avg_quality'] = reviews.aggregate(Avg('characteristic_4'))['characteristic_4__avg']
+            avg_reviews['avg_time_management'] = reviews.aggregate(Avg('characteristic_5'))['characteristic_5__avg']
+            avg_reviews['avg_preparation_value'] = reviews.aggregate(Avg('characteristic_6'))['characteristic_6__avg']
+            avg_reviews['avg_recommendation'] = reviews.aggregate(Avg('characteristic_7'))['characteristic_7__avg']
+
+            # Debug prints
+            print(f"Mock Test: {mock_test.title}, Avg Time Management: {avg_reviews['avg_time_management']}, Avg Preparation Value: {avg_reviews['avg_preparation_value']}")
+
+        combined_reviews[mock_test.id] = avg_reviews
+
+    context = {
+        'exam': exam,
+        'mock_tests': mock_tests,
+        'combined_reviews': combined_reviews,
+    }
+    
+    # Debugging context
+    print("Context data:", context)
+    
+    return render(request, 'reviews/combined_reviews.html', context)
+>>>>>>> 3908468 (fallback : whole review for exams)
