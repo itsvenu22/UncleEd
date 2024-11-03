@@ -7,25 +7,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Combined Reviews for {{ exam.title }}</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
     <h2>Combined Reviews for {{ exam.title }}</h2>
     {% for mock_test in mock_tests %}
-    <h3>{{ mock_test.title }}</h3>
-    <p>Average Clarity: {{ combined_reviews|get_item:mock_test.id|get_item:"avg_clarity"|default:"N/A" }}</p>
-    <p>Average Difficulty: {{ combined_reviews|get_item:mock_test.id|get_item:"avg_difficulty"|default:"N/A" }}</p>
-    <p>Average Relevance: {{ combined_reviews|get_item:mock_test.id|get_item:"avg_relevance"|default:"N/A" }}</p>
-    <p>Average Quality: {{ combined_reviews|get_item:mock_test.id|get_item:"avg_quality"|default:"N/A" }}</p>
-    <p>Average Time Management:
-        {{ combined_reviews|get_item:mock_test.id|get_item:"avg_time_management"|default:"N/A"}}
-    </p>
-    <p>Average Preparation Value:
-        {{combined_reviews|get_item:mock_test.id|get_item:"avg_preparation_value"|default:"N/A" }}</p>
-    <p>Average Recommendation: {{ combined_reviews|get_item:mock_test.id|get_item:"avg_recommendation"|default:"N/A" }}
-    </p>
+        <h3>{{ mock_test.title }}</h3>
+        <p>Average Clarity: {{ combined_reviews|get_item:mock_test.id|get_item:"avg_clarity"|default:"N/A" }}</p>
+        <p>Average Difficulty: {{ combined_reviews|get_item:mock_test.id|get_item:"avg_difficulty"|default:"N/A" }}</p>
+        <p>Average Relevance: {{ combined_reviews|get_item:mock_test.id|get_item:"avg_relevance"|default:"N/A" }}</p>
+        <p>Average Quality: {{ combined_reviews|get_item:mock_test.id|get_item:"avg_quality"|default:"N/A" }}</p>
+        <p>Average Time Management: {{ combined_reviews|get_item:mock_test.id|get_item:"avg_time_management"|default:"N/A" }}</p>
+        <p>Average Preparation Value: {{ combined_reviews|get_item:mock_test.id|get_item:"avg_preparation_value"|default:"N/A" }}</p>
+        <p>Average Recommendation: {{ combined_reviews|get_item:mock_test.id|get_item:"avg_recommendation"|default:"N/A" }}</p>
     {% endfor %}
 
+    <canvas id="myRadarChart" width="400" height="400"></canvas>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('myRadarChart').getContext('2d');
+            const radarData = {
+                labels: {{ radar_data.labels|safe }},
+                datasets: {{ radar_data.datasets|safe }},
+            };
+
+            const myRadarChart = new Chart(ctx, {
+                type: 'radar',
+                data: radarData,
+                options: {
+                    scales: {
+                        r: {
+                            min: 0,
+                            max: 5,
+                            ticks: {
+                                stepSize: 1,
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
