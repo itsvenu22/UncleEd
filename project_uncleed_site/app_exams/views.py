@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 383dd17 (base(add review) : working ✅)
 
 =======
@@ -18,6 +19,10 @@ from django.contrib.auth.decorators import login_required
 =======
 from django.db.models import Avg
 
+=======
+from django.db.models import Avg, F
+import json
+>>>>>>> e7e63bc (fallback : sorting working ✅)
 
 >>>>>>> 3908468 (fallback : whole review for exams)
 def register_view(request):
@@ -211,6 +216,54 @@ def combined_reviews_view(request, exam_id):
     exam = get_object_or_404(Exam, id=exam_id)
     mock_tests = MockTest.objects.filter(exam=exam)
 
+    # Get the characteristic to sort by, defaulting to overall rating
+    sort_by = request.GET.get('sort_by', 'overall')
+
+    # Get the number of top mock tests to show
+    show_count = request.GET.get('show_count', '5')
+
+    # Validate show_count input
+    if show_count in ['5', '7', '10']:
+        show_count = int(show_count)
+    else:
+        show_count = float('inf')  # 'all' case
+
+    # Overall sorting calculation
+    if sort_by == 'overall':
+        top_mock_tests = (
+            mock_tests.annotate(
+                avg_rating=(
+                    F('reviews__characteristic_1') + 
+                    F('reviews__characteristic_2') + 
+                    F('reviews__characteristic_3') + 
+                    F('reviews__characteristic_4') + 
+                    F('reviews__characteristic_5') + 
+                    F('reviews__characteristic_6') + 
+                    F('reviews__characteristic_7')
+                ) / 7  # Average of all characteristics
+            ).annotate(avg_rating=Avg('avg_rating'))
+            .order_by('-avg_rating')
+        )
+    else:
+        # Validate the sorting field
+        valid_sort_fields = [
+            'characteristic_1', 'characteristic_2', 'characteristic_3',
+            'characteristic_4', 'characteristic_5', 'characteristic_6', 
+            'characteristic_7'
+        ]
+
+        if sort_by not in valid_sort_fields:
+            sort_by = 'characteristic_1'  # Default sorting field if invalid
+
+        top_mock_tests = (
+            mock_tests.annotate(avg_rating=Avg(f'reviews__{sort_by}'))
+            .order_by('-avg_rating')
+        )
+
+    # Adjust the queryset based on show_count
+    if show_count != float('inf'):
+        top_mock_tests = top_mock_tests[:show_count]
+
     combined_reviews = {}
     radar_data = {
         'labels': [
@@ -225,55 +278,39 @@ def combined_reviews_view(request, exam_id):
         'datasets': []
     }
 
-    for mock_test in mock_tests:
+    for mock_test in top_mock_tests:
         reviews = Review.objects.filter(mock_test=mock_test)
 
-        # Initialize the average dictionary
         avg_reviews = {
-            'avg_clarity': None,
-            'avg_difficulty': None,
-            'avg_relevance': None,
-            'avg_quality': None,
-            'avg_time_management': None,
-            'avg_preparation_value': None,
-            'avg_recommendation': None,
+            'avg_clarity': reviews.aggregate(Avg('characteristic_1'))['characteristic_1__avg'] or 0,
+            'avg_difficulty': reviews.aggregate(Avg('characteristic_2'))['characteristic_2__avg'] or 0,
+            'avg_relevance': reviews.aggregate(Avg('characteristic_3'))['characteristic_3__avg'] or 0,
+            'avg_quality': reviews.aggregate(Avg('characteristic_4'))['characteristic_4__avg'] or 0,
+            'avg_time_management': reviews.aggregate(Avg('characteristic_5'))['characteristic_5__avg'] or 0,
+            'avg_preparation_value': reviews.aggregate(Avg('characteristic_6'))['characteristic_6__avg'] or 0,
+            'avg_recommendation': reviews.aggregate(Avg('characteristic_7'))['characteristic_7__avg'] or 0,
         }
 
-        # Calculate averages if there are reviews
-        if reviews.exists():
-            avg_reviews['avg_clarity'] = reviews.aggregate(Avg('characteristic_1'))['characteristic_1__avg']
-            avg_reviews['avg_difficulty'] = reviews.aggregate(Avg('characteristic_2'))['characteristic_2__avg']
-            avg_reviews['avg_relevance'] = reviews.aggregate(Avg('characteristic_3'))['characteristic_3__avg']
-            avg_reviews['avg_quality'] = reviews.aggregate(Avg('characteristic_4'))['characteristic_4__avg']
-            avg_reviews['avg_time_management'] = reviews.aggregate(Avg('characteristic_5'))['characteristic_5__avg']
-            avg_reviews['avg_preparation_value'] = reviews.aggregate(Avg('characteristic_6'))['characteristic_6__avg']
-            avg_reviews['avg_recommendation'] = reviews.aggregate(Avg('characteristic_7'))['characteristic_7__avg']
-
-            # Append the data for radar chart
-            radar_data['datasets'].append({
-                'label': mock_test.title,
-                'data': [
-                    avg_reviews['avg_clarity'],
-                    avg_reviews['avg_difficulty'],
-                    avg_reviews['avg_relevance'],
-                    avg_reviews['avg_quality'],
-                    avg_reviews['avg_time_management'],
-                    avg_reviews['avg_preparation_value'],
-                    avg_reviews['avg_recommendation']
-                ],
-                'backgroundColor': 'rgba(75, 192, 192, 0.2)',
-                'borderColor': 'rgba(75, 192, 192, 1)',
-                'borderWidth': 1
-            })
+        radar_data['datasets'].append({
+            'label': mock_test.title,
+            'data': list(avg_reviews.values()),
+            'backgroundColor': 'rgba(75, 192, 192, 0.2)',
+            'borderColor': 'rgba(75, 192, 192, 1)',
+            'borderWidth': 1
+        })
 
         combined_reviews[mock_test.id] = avg_reviews
 
     context = {
         'exam': exam,
+        'top_mock_tests': top_mock_tests,
         'mock_tests': mock_tests,
         'combined_reviews': combined_reviews,
-        'radar_data': radar_data,
+        'radar_data_json': json.dumps(radar_data),
+        'sort_by': sort_by,
+        'show_count': show_count
     }
+<<<<<<< HEAD
 <<<<<<< HEAD
     
     # Debugging context
@@ -284,3 +321,6 @@ def combined_reviews_view(request, exam_id):
 =======
     return render(request, 'reviews/combined_reviews.html', context)
 >>>>>>> b947e0c (fallback : exam analytics ✅)
+=======
+    return render(request, 'reviews/combined_reviews.html', context)
+>>>>>>> e7e63bc (fallback : sorting working ✅)
