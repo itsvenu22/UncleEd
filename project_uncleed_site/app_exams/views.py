@@ -117,6 +117,19 @@ def combined_reviews_view(request, exam_id):
     mock_tests = MockTest.objects.filter(exam=exam)
 
     combined_reviews = {}
+    radar_data = {
+        'labels': [
+            "Clarity of Concepts",
+            "Difficulty Appropriateness",
+            "Relevance to Exam Pattern",
+            "Quality of Questions",
+            "Time Management",
+            "Overall Preparation Value",
+            "Likelihood of Recommending"
+        ],
+        'datasets': []
+    }
+
     for mock_test in mock_tests:
         reviews = Review.objects.filter(mock_test=mock_test)
 
@@ -141,8 +154,22 @@ def combined_reviews_view(request, exam_id):
             avg_reviews['avg_preparation_value'] = reviews.aggregate(Avg('characteristic_6'))['characteristic_6__avg']
             avg_reviews['avg_recommendation'] = reviews.aggregate(Avg('characteristic_7'))['characteristic_7__avg']
 
-            # Debug prints
-            print(f"Mock Test: {mock_test.title}, Avg Time Management: {avg_reviews['avg_time_management']}, Avg Preparation Value: {avg_reviews['avg_preparation_value']}")
+            # Append the data for radar chart
+            radar_data['datasets'].append({
+                'label': mock_test.title,
+                'data': [
+                    avg_reviews['avg_clarity'],
+                    avg_reviews['avg_difficulty'],
+                    avg_reviews['avg_relevance'],
+                    avg_reviews['avg_quality'],
+                    avg_reviews['avg_time_management'],
+                    avg_reviews['avg_preparation_value'],
+                    avg_reviews['avg_recommendation']
+                ],
+                'backgroundColor': 'rgba(75, 192, 192, 0.2)',
+                'borderColor': 'rgba(75, 192, 192, 1)',
+                'borderWidth': 1
+            })
 
         combined_reviews[mock_test.id] = avg_reviews
 
@@ -150,9 +177,6 @@ def combined_reviews_view(request, exam_id):
         'exam': exam,
         'mock_tests': mock_tests,
         'combined_reviews': combined_reviews,
+        'radar_data': radar_data,
     }
-    
-    # Debugging context
-    print("Context data:", context)
-    
     return render(request, 'reviews/combined_reviews.html', context)
