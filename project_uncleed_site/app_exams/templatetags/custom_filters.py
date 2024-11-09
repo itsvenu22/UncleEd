@@ -1,8 +1,9 @@
-# app_exams/templatetags/custom_filters.py
+# app_exams/templatetags/my_custom_filters.py
 from django import template
 
 register = template.Library()
 
 @register.filter
-def get_item(dictionary, key):
-    return dictionary.get(key)
+def to(value, arg):
+    # Define the logic you want here
+    return str(value) + str(arg)
