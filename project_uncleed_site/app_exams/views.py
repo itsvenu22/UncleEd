@@ -110,8 +110,6 @@ def all_reviews(request, mock_test_id):
         'reviews': reviews,
         'star_range': star_range,  # Pass the star range to the template
     })
-
-
 def combined_reviews_view(request, exam_id):
     exam = get_object_or_404(Exam, id=exam_id)
     mock_tests = MockTest.objects.filter(exam=exam)
@@ -132,14 +130,13 @@ def combined_reviews_view(request, exam_id):
     if sort_by == 'overall':
         top_mock_tests = (
             mock_tests.annotate(
-                avg_rating=(
-                    F('reviews__characteristic_1') + 
-                    F('reviews__characteristic_2') + 
-                    F('reviews__characteristic_3') + 
-                    F('reviews__characteristic_4') + 
-                    F('reviews__characteristic_5') + 
-                    F('reviews__characteristic_6') + 
-                    F('reviews__characteristic_7')
+                avg_rating=(F('reviews__characteristic_1') + 
+                            F('reviews__characteristic_2') + 
+                            F('reviews__characteristic_3') + 
+                            F('reviews__characteristic_4') + 
+                            F('reviews__characteristic_5') + 
+                            F('reviews__characteristic_6') + 
+                            F('reviews__characteristic_7')
                 ) / 7  # Average of all characteristics
             ).annotate(avg_rating=Avg('avg_rating'))
             .order_by('-avg_rating')
@@ -164,6 +161,9 @@ def combined_reviews_view(request, exam_id):
     if show_count != float('inf'):
         top_mock_tests = top_mock_tests[:show_count]
 
+    # Select only the top 2 mock tests for the radar chart
+    top_2_mock_tests = top_mock_tests[:2]
+
     combined_reviews = {}
     radar_data = {
         'labels': [
@@ -178,7 +178,7 @@ def combined_reviews_view(request, exam_id):
         'datasets': []
     }
 
-    for mock_test in top_mock_tests:
+    for mock_test in top_2_mock_tests:
         reviews = Review.objects.filter(mock_test=mock_test)
 
         avg_reviews = {
@@ -201,6 +201,17 @@ def combined_reviews_view(request, exam_id):
 
         combined_reviews[mock_test.id] = avg_reviews
 
+# this is for testing only
+        temp = {
+            "characteristic_1" : "avg_clarity",
+            "characteristic_2" : "avg_difficulty",
+            "characteristic_3" : "avg_relevance",
+            "characteristic_4" : "avg_quality",
+            "characteristic_5" : "avg_time_management",
+            "characteristic_6" : "avg_preparation_value",
+            "characteristic_7" : "avg_recommendation"
+        }
+
     context = {
         'exam': exam,
         'top_mock_tests': top_mock_tests,
@@ -208,6 +219,7 @@ def combined_reviews_view(request, exam_id):
         'combined_reviews': combined_reviews,
         'radar_data_json': json.dumps(radar_data),
         'sort_by': sort_by,
-        'show_count': show_count
+        'show_count': show_count,
+        'temp': temp
     }
     return render(request, 'reviews/combined_reviews.html', context)

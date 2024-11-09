@@ -44,81 +44,27 @@
         <p>No top mock tests available.</p>
     {% endif %}
 
-    <div id="mockTestFilter">
-        <label>Select Mock Tests to Compare:</label>
-        <select id="mockTestSelect" multiple>
-            {% for mock_test in mock_tests %}
-                <option value="{{ mock_test.id }}">{{ mock_test.title }}</option>
-            {% endfor %}
-        </select>
-        <button onclick="updateChart()">Update Chart</button>
-    </div>
-
-    <button onclick="switchChartType('radar')">Radar Chart</button>
-    <button onclick="switchChartType('bar')">Bar Chart</button>
-    <button onclick="switchChartType('line')">Line Chart</button>
-
+    <!-- Displaying Radar Chart for Top 2 Mock Tests -->
+    <h2>Top 2 Ranked Mock Tests</h2>
     <canvas id="chartCanvas" width="400" height="400"></canvas>
 
     <script>
         const radarData = {{ radar_data_json|safe }};
-        let chartType = 'radar';  // Default chart type
         const ctx = document.getElementById('chartCanvas').getContext('2d');
 
         let chart = new Chart(ctx, {
-            type: chartType,
+            type: 'radar',  // We are using radar chart only
             data: {
                 labels: radarData.labels,
-                datasets: radarData.datasets.slice(0, 2)
+                datasets: radarData.datasets
             },
             options: {
                 responsive: true,
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.dataset.label + ': ' + context.raw.toFixed(2);
-                            }
-                        }
-                    }
-                },
                 scales: {
-                    r: { beginAtZero: true, max: 5 },
-                    y: { beginAtZero: true, max: 5 }
+                    r: { beginAtZero: true, max: 5 }
                 }
             }
         });
-
-        function updateChart() {
-            const selectedOptions = Array.from(document.getElementById('mockTestSelect').selectedOptions);
-            const selectedIds = selectedOptions.map(option => option.value);
-
-            // Update the datasets based on selected mock tests
-            const filteredDatasets = radarData.datasets.filter(dataset => selectedIds.includes(dataset.label));
-            chart.data.datasets = filteredDatasets;
-
-            chart.update();
-        }
-
-        function switchChartType(type) {
-            chartType = type;
-            chart.destroy();
-            chart = new Chart(ctx, {
-                type: chartType,
-                data: {
-                    labels: radarData.labels,
-                    datasets: radarData.datasets.slice(0, 2)
-                },
-                options: {
-                    responsive: true,
-                    scales: chartType === 'radar' ? {
-                        r: { beginAtZero: true, max: 5 }
-                    } : {
-                        y: { beginAtZero: true, max: 5 }
-                    }
-                }
-            });
-        }
     </script>
 </body>
 </html>
