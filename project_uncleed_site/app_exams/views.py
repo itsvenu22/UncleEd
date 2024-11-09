@@ -312,6 +312,7 @@ def combined_reviews_view(request, exam_id):
     }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     
     # Debugging context
     print("Context data:", context)
@@ -324,3 +325,6 @@ def combined_reviews_view(request, exam_id):
 =======
     return render(request, 'reviews/combined_reviews.html', context)
 >>>>>>> e7e63bc (fallback : sorting working ✅)
+=======
+    return render(request, 'reviews/combined_reviews.html', context)
+>>>>>>> 23eb7c9 (fallback : sorting ✅ (combined review for an exam))
