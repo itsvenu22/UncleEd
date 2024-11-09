@@ -5,18 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Combined Reviews</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        #mockTestFilter {
-            margin: 20px 0;
-        }
-        .hidden {
-            display: none;
-        }
-    </style>
 </head>
 <body>
     <h1>{{ exam.title }} - Combined Reviews</h1>
 
+    <!-- Sort and Show Controls -->
     <form id="controlsForm" method="GET">
         <label for="sort_by">Sort by:</label>
         <select id="sort_by" name="sort_by" onchange="document.getElementById('controlsForm').submit()">
@@ -39,6 +32,7 @@
         </select>
     </form>
 
+    <!-- Displaying Top Ranked Mock Tests -->
     <h2>Top Ranked Mock Tests</h2>
     {% if top_mock_tests %}
         <ul>
@@ -51,20 +45,18 @@
     {% endif %}
 
     <div id="mockTestFilter">
-        <label for="mockTestSelect">Select Mock Tests to Compare:</label>
+        <label>Select Mock Tests to Compare:</label>
         <select id="mockTestSelect" multiple>
             {% for mock_test in mock_tests %}
                 <option value="{{ mock_test.id }}">{{ mock_test.title }}</option>
             {% endfor %}
         </select>
-        <button id="addButton" onclick="addSelected()">Add Selected</button>
+        <button onclick="updateChart()">Update Chart</button>
     </div>
 
-    <h3>Select Chart Type:</h3>
     <button onclick="switchChartType('radar')">Radar Chart</button>
     <button onclick="switchChartType('bar')">Bar Chart</button>
     <button onclick="switchChartType('line')">Line Chart</button>
-    <button onclick="switchChartType('pie')">Pie Chart</button>
 
     <canvas id="chartCanvas" width="400" height="400"></canvas>
 
@@ -72,16 +64,24 @@
         const radarData = {{ radar_data_json|safe }};
         let chartType = 'radar';  // Default chart type
         const ctx = document.getElementById('chartCanvas').getContext('2d');
-        let selectedMockTests = []; // Store currently selected mock tests for comparison
 
         let chart = new Chart(ctx, {
             type: chartType,
             data: {
                 labels: radarData.labels,
-                datasets: []
+                datasets: radarData.datasets.slice(0, 2)
             },
             options: {
                 responsive: true,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.raw.toFixed(2);
+                            }
+                        }
+                    }
+                },
                 scales: {
                     r: { beginAtZero: true, max: 5 },
                     y: { beginAtZero: true, max: 5 }
@@ -90,19 +90,12 @@
         });
 
         function updateChart() {
-            const filteredDatasets = radarData.datasets.filter(dataset => selectedMockTests.includes(dataset.label));
-            chart.data.datasets = filteredDatasets;
+            const selectedOptions = Array.from(document.getElementById('mockTestSelect').selectedOptions);
+            const selectedIds = selectedOptions.map(option => option.value);
 
-            if (chartType === 'radar' && filteredDatasets.length > 2) {
-                alert("Radar chart allows only 2 mock tests for comparison.");
-                return;
-            } else if ((chartType === 'bar' || chartType === 'line') && filteredDatasets.length > 4) {
-                alert("Bar and Line charts allow only 4 mock tests for comparison.");
-                return;
-            } else if (chartType === 'pie' && filteredDatasets.length > 1) {
-                alert("Pie chart allows only 1 mock test for comparison.");
-                return;
-            }
+            // Update the datasets based on selected mock tests
+            const filteredDatasets = radarData.datasets.filter(dataset => selectedIds.includes(dataset.label));
+            chart.data.datasets = filteredDatasets;
 
             chart.update();
         }
@@ -114,7 +107,7 @@
                 type: chartType,
                 data: {
                     labels: radarData.labels,
-                    datasets: []
+                    datasets: radarData.datasets.slice(0, 2)
                 },
                 options: {
                     responsive: true,
@@ -125,25 +118,6 @@
                     }
                 }
             });
-            updateChart();
-        }
-
-        function addSelected() {
-            const selectedOptions = Array.from(document.getElementById('mockTestSelect').selectedOptions);
-            
-            if (selectedOptions.length === 0) {
-                alert("Please select at least one mock test.");
-                return;
-            }
-
-            selectedOptions.forEach(option => {
-                if (!selectedMockTests.includes(option.value)) {
-                    selectedMockTests.push(option.value);
-                }
-            });
-
-            console.log("Selected Mock Tests:", selectedMockTests); // For debugging
-            updateChart();
         }
     </script>
 </body>

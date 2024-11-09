@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Test Comparison</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #mockTestFilter,
+        #graphTypeSelect {
+            margin-bottom: 20px;
+        }
+
+        select {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Mock Test Comparison</h1>
+
+    <!-- Graph Type Selection -->
+    <div id="graphTypeSelect">
+        <label for="graphType">Select Graph Type:</label>
+        <select id="graphType">
+            <option value="radar">Radar Chart</option>
+            <option value="bar">Bar Chart</option>
+            <option value="line">Line Chart</option>
+        </select>
+    </div>
+
+    <!-- Mock Test Selection -->
+    <div id="mockTestFilter">
+        <div id="radarSelect" style="display: block;">
+            <label for="radarTestSelect1">Select Mock Test 1 for Radar Chart:</label>
+            <select id="radarTestSelect1">
+                <option value="mock1">Mock Test 1</option>
+                <option value="mock2">Mock Test 2</option>
+                <option value="mock3">Mock Test 3</option>
+                <option value="mock4">Mock Test 4</option>
+                <option value="mock5">Mock Test 5</option>
+            </select>
+
+            <label for="radarTestSelect2">Select Mock Test 2 for Radar Chart:</label>
+            <select id="radarTestSelect2">
+                <option value="mock1">Mock Test 1</option>
+                <option value="mock2">Mock Test 2</option>
+                <option value="mock3">Mock Test 3</option>
+                <option value="mock4">Mock Test 4</option>
+                <option value="mock5">Mock Test 5</option>
+            </select>
+        </div>
+
+        <div id="barLineSelect" style="display: none;">
+            <label for="barTestSelect1">Select Mock Test 1:</label>
+            <select id="barTestSelect1">
+                <option value="mock1">Mock Test 1</option>
+                <option value="mock2">Mock Test 2</option>
+                <option value="mock3">Mock Test 3</option>
+                <option value="mock4">Mock Test 4</option>
+                <option value="mock5">Mock Test 5</option>
+            </select>
+
+            <label for="barTestSelect2">Select Mock Test 2:</label>
+            <select id="barTestSelect2">
+                <option value="mock1">Mock Test 1</option>
+                <option value="mock2">Mock Test 2</option>
+                <option value="mock3">Mock Test 3</option>
+                <option value="mock4">Mock Test 4</option>
+                <option value="mock5">Mock Test 5</option>
+            </select>
+
+            <label for="barTestSelect3">Select Mock Test 3:</label>
+            <select id="barTestSelect3">
+                <option value="mock1">Mock Test 1</option>
+                <option value="mock2">Mock Test 2</option>
+                <option value="mock3">Mock Test 3</option>
+                <option value="mock4">Mock Test 4</option>
+                <option value="mock5">Mock Test 5</option>
+            </select>
+
+            <label for="barTestSelect4">Select Mock Test 4:</label>
+            <select id="barTestSelect4">
+                <option value="mock1">Mock Test 1</option>
+                <option value="mock2">Mock Test 2</option>
+                <option value="mock3">Mock Test 3</option>
+                <option value="mock4">Mock Test 4</option>
+                <option value="mock5">Mock Test 5</option>
+            </select>
+        </div>
+
+        <button id="addButton">Add Selected</button>
+    </div>
+
+    <!-- Chart Canvas -->
+    <canvas id="chartCanvas" width="400" height="400"></canvas>
+
+    <script>
+        const ctx = document.getElementById('chartCanvas').getContext('2d');
+        let selectedMockTests = []; // Store currently selected mock tests
+        let chart; // Variable to hold the chart instance
+
+        document.getElementById('addButton').addEventListener('click', addSelected);
+        document.getElementById('graphType').addEventListener('change', updateGraphType);
+
+        function addSelected() {
+            const graphType = document.getElementById('graphType').value;
+            selectedMockTests = [];
+
+            if (graphType === 'radar') {
+                const selectedOption1 = document.getElementById('radarTestSelect1').value;
+                const selectedOption2 = document.getElementById('radarTestSelect2').value;
+
+                if (selectedOption1 === selectedOption2) {
+                    alert("Please select two different mock tests for the radar chart.");
+                    return;
+                }
+
+                selectedMockTests = [selectedOption1, selectedOption2];
+            } else if (graphType === 'bar' || graphType === 'line') {
+                const selectedOptions1 = document.getElementById('barTestSelect1').value;
+                const selectedOptions2 = document.getElementById('barTestSelect2').value;
+                const selectedOptions3 = document.getElementById('barTestSelect3').value;
+                const selectedOptions4 = document.getElementById('barTestSelect4').value;
+                selectedMockTests = [selectedOptions1, selectedOptions2, selectedOptions3, selectedOptions4];
+            }
+
+            console.log("Selected Mock Tests:", selectedMockTests); // For debugging
+            updateChart();
+        }
+
+        function updateGraphType() {
+            const graphType = document.getElementById('graphType').value;
+            if (graphType === 'radar') {
+                document.getElementById('radarSelect').style.display = 'block';
+                document.getElementById('barLineSelect').style.display = 'none';
+            } else {
+                document.getElementById('radarSelect').style.display = 'none';
+                document.getElementById('barLineSelect').style.display = 'block';
+            }
+        }
+
+        function updateChart() {
+            if (chart) {
+                chart.destroy(); // Destroy the previous chart instance
+            }
+
+            // Sample data for testing
+            const data = {
+                labels: ['Characteristic 1', 'Characteristic 2', 'Characteristic 3'],
+                datasets: selectedMockTests.map(test => ({
+                    label: test,
+                    data: Array.from({ length: 3 }, () => Math.floor(Math.random() * 5) + 1), // Random data for testing
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }))
+            };
+
+            const graphType = document.getElementById('graphType').value;
+
+            if (graphType === 'radar') {
+                chart = new Chart(ctx, {
+                    type: 'radar',
+                    data: data,
+                    options: {
+                        scale: {
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            } else if (graphType === 'bar') {
+                chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: data,
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            } else if (graphType === 'line') {
+                chart = new Chart(ctx, {
+                    type: 'line',
+                    data: data,
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Initialize with the default graph type (radar)
+        updateGraphType();
+    </script>
+</body>
+
+</html>
