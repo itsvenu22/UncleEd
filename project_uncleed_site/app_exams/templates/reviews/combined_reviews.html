@@ -5,6 +5,116 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Combined Reviews</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* General Body and Font Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 20px;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        /* Header Styling */
+        h1 {
+            color: #004d40;
+            font-size: 2.5em;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        h2 {
+            color: #00796b;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Flex Container for Full Page Layout */
+        .content-container {
+            display: flex;
+            gap: 40px;
+            max-width: 100%;
+            width: 100%;
+            margin-top: 20px;
+            justify-content: center;
+            padding: 0 40px;
+        }
+
+        /* Controls Styling */
+        #controlsForm {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        #controlsForm label {
+            font-weight: bold;
+            font-size: 1em;
+        }
+
+        #controlsForm select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        #controlsForm select:focus {
+            border-color: #00796b;
+        }
+
+        /* Left Column Styling */
+        .left-column {
+            flex: 1;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background-color: #e0f2f1;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            color: #004d40;
+            font-size: 1.1em;
+        }
+
+        /* Right Column (Chart) Styling */
+        .right-column {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        #chartCanvas {
+            max-width: 100%;
+            width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
     <h1>{{ exam.title }} - Combined Reviews</h1>
@@ -32,28 +142,34 @@
         </select>
     </form>
 
-    <!-- Displaying Top Ranked Mock Tests -->
-    <h2>Top Ranked Mock Tests</h2>
-    {% if top_mock_tests %}
-        <ul>
-            {% for mock_test in top_mock_tests %}
-                <li>{{ mock_test.title }} - Average Rating: {{ mock_test.avg_rating|default:"N/A" }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No top mock tests available.</p>
-    {% endif %}
+    <!-- Side-by-Side Content Container -->
+    <div class="content-container">
+        <!-- Left Column: Sorted List -->
+        <div class="left-column">
+            <h2>Top Ranked Mock Tests</h2>
+            {% if top_mock_tests %}
+                <ul>
+                    {% for mock_test in top_mock_tests %}
+                        <li>{{ mock_test.title }} - Average Rating: {{ mock_test.avg_rating|default:"N/A" }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No top mock tests available.</p>
+            {% endif %}
+        </div>
 
-    <!-- Displaying Radar Chart for Top 2 Mock Tests -->
-    <h2>Top 2 Ranked Mock Tests</h2>
-    <canvas id="chartCanvas" width="400" height="400"></canvas>
+        <!-- Right Column: Radar Chart -->
+        <div class="right-column">
+            <canvas id="chartCanvas"></canvas>
+        </div>
+    </div>
 
     <script>
         const radarData = {{ radar_data_json|safe }};
         const ctx = document.getElementById('chartCanvas').getContext('2d');
 
         let chart = new Chart(ctx, {
-            type: 'radar',  // We are using radar chart only
+            type: 'radar',
             data: {
                 labels: radarData.labels,
                 datasets: radarData.datasets
