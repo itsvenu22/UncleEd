@@ -8,16 +8,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* General Body and Font Styling */
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            padding: 30px;
-            margin: 0;
-            box-sizing: border-box;
-            overflow-x: hidden;
-        }
-
         html,
         body {
             padding: 0;
@@ -57,7 +47,8 @@
             gap: 30px;
             justify-content: center;
             align-items: flex-start;
-            margin-top: 40px;
+            ;
+            margin-top: -5px;
         }
 
         /* Controls Styling */
@@ -99,7 +90,7 @@
             border-radius: 8px;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
             height: auto;
-            max-height: 75vh;
+            max-height: 86vh;
             overflow-y: auto;
         }
 
@@ -252,6 +243,19 @@
                 responsive: true,
                 scales: {
                     r: { beginAtZero: true, max: 5 }
+                },
+                animation: {
+                    duration: 2000, // Increase duration for a slower animation
+                    easing: 'easeOutCubic', // Easing for a smoother, gradual animation
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            color: '#004d40',
+                        }
+                    }
                 }
             }
         });
