@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Combined Reviews</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
+ <style>
         /* General Body and Font Styling */
     html, body {
         padding: 0;
@@ -216,24 +216,50 @@
         </div>
     </div>
 
-    <script>
-        const radarData = {{ radar_data_json|safe }};
-        const ctx = document.getElementById('chartCanvas').getContext('2d');
+<script>
+    const radarData = {{ radar_data_json|safe }};
+    const ctx = document.getElementById('chartCanvas').getContext('2d');
 
-        let chart = new Chart(ctx, {
-            type: 'radar',
-            data: {
-                labels: radarData.labels,
-                datasets: radarData.datasets
+    let chart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: radarData.labels,
+            datasets: radarData.datasets.map((dataset, index) => ({
+                ...dataset,
+                backgroundColor: index === 0 ? 'rgba(0, 150, 136, 0.2)' : 'rgba(0, 188, 212, 0.2)', // Different background color for each dataset
+                borderColor: index === 0 ? 'rgba(0, 150, 136, 1)' : 'rgba(0, 188, 212, 1)', // Different border color for each dataset
+                pointBackgroundColor: index === 0 ? 'rgba(0, 150, 136, 1)' : 'rgba(0, 188, 212, 1)', // Point color
+            }))
+        },
+        options: {
+            responsive: true,
+            scales: {
+                r: { 
+                    beginAtZero: true, 
+                    max: 5 
+                }
             },
-            options: {
-                responsive: true,
-                scales: {
-                    r: { beginAtZero: true, max: 5 }
+            animation: {
+                duration: 2000, // Slower animation duration
+                easing: 'easeOutCubic', // Smooth easing for the animation
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        color: '#004d40', // Legend text color
+                        font: {
+                            size: 14
+                        },
+                    }
                 }
             }
-        });
-    </script>
+        }
+    });
+</script>
+
+
 </body>
 </html>
 
