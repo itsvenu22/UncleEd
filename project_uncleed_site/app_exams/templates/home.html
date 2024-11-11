@@ -410,6 +410,9 @@
                     <h3>{{ exam.title }}</h3>
                     <p>{{ exam.description }}</p>
                     <a href="{% url 'exam_detail' exam.pk %}" id="button-link">View Mock Tests</a>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'combined_reviews' exam.pk %}" id="button-link">View Analytics</a>
+                    {% endif %}
                 </div>
                 {% empty %}
                 <p>No mock tests available at the moment.</p>
