@@ -164,6 +164,25 @@
                 width: 100%;
             }
         }
+        /* Back Link */
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #00796b;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-link:hover {
+            background-color: #004d40;
+            transform: translateY(-3px);
+        }
     </style>
 </head>
 <body>
@@ -208,6 +227,7 @@
             {% else %}
                 <p>No top mock tests available.</p>
             {% endif %}
+			<a href="{% url 'home' %}#mocktest-section" class="back-link">Back to Exams</a>
         </div>
 
         <!-- Right Column: Radar Chart -->
