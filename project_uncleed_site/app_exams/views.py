@@ -336,6 +336,7 @@ def combined_reviews_view(request, exam_id):
     print("Context data:", context)
     
     return render(request, 'reviews/combined_reviews.html', context)
+<<<<<<< HEAD
 >>>>>>> 3908468 (fallback : whole review for exams)
 =======
     return render(request, 'reviews/combined_reviews.html', context)
@@ -349,3 +350,87 @@ def combined_reviews_view(request, exam_id):
 =======
     return render(request, 'reviews/combined_reviews.html', context)
 >>>>>>> 5a9e7ba (fallback : sorting headless done ✅)
+=======
+from django.shortcuts import render, get_object_or_404
+from django.db.models import Avg
+from .models import Exam, MockTest, Review
+import json
+
+def mock_test_comparison(request, exam_id):
+    exam = get_object_or_404(Exam, id=exam_id)
+    mock_tests = MockTest.objects.filter(exam=exam)
+
+    # Chart type selection (default to radar)
+    chart_type = request.GET.get('chart_type', 'radar')
+
+    # Get selected mock tests for comparison
+    mock_test_1_id = request.GET.get('mock_test_1')
+    mock_test_2_id = request.GET.get('mock_test_2')
+
+    # Default to first 2 mock tests if not selected
+    selected_mocks = mock_tests[:2]
+    if mock_test_1_id and mock_test_2_id:
+        selected_mocks = mock_tests.filter(id__in=[mock_test_1_id, mock_test_2_id])[:2]
+
+    # Prepare data structure for chart
+    labels = [
+        "Clarity of Concepts", "Difficulty Appropriateness", "Relevance to Exam Pattern",
+        "Quality of Questions", "Time Management", "Overall Preparation Value",
+        "Likelihood of Recommending"
+    ]
+
+    radar_data = {
+        'labels': labels,
+        'datasets': []
+    }
+    bar_line_data = {
+        'labels': labels,
+        'bar_datasets': [],
+        'line_datasets': []
+    }
+
+    # Populate radar and bar/line datasets
+    for mock in selected_mocks:
+        reviews = Review.objects.filter(mock_test=mock)
+        avg_reviews = [
+            reviews.aggregate(Avg(f'characteristic_{i}'))[f'characteristic_{i}__avg'] or 0
+            for i in range(1, 8)
+        ]
+
+        # Add dataset for radar chart
+        radar_data['datasets'].append({
+            'label': mock.title,
+            'data': avg_reviews,
+            'backgroundColor': 'rgba(75, 192, 192, 0.2)',
+            'borderColor': 'rgba(75, 192, 192, 1)',
+            'borderWidth': 1
+        })
+
+        # Add datasets for bar and line charts
+        bar_line_data['bar_datasets'].append({
+            'label': mock.title,
+            'data': avg_reviews,
+            'backgroundColor': 'rgba(153, 102, 255, 0.6)',
+            'borderColor': 'rgba(153, 102, 255, 1)',
+            'borderWidth': 1
+        })
+        bar_line_data['line_datasets'].append({
+            'label': mock.title,
+            'data': avg_reviews,
+            'fill': False,
+            'borderColor': 'rgba(255, 99, 132, 1)',
+            'tension': 0.1
+        })
+
+    # Pass the prepared data to the template
+    context = {
+        'exam': exam,
+        'mock_tests': mock_tests,
+        'chart_type': chart_type,
+        'selected_mock_1': mock_test_1_id,
+        'selected_mock_2': mock_test_2_id,
+        'radar_data_json': json.dumps(radar_data),
+        'bar_line_data_json': json.dumps(bar_line_data)
+    }
+    return render(request, 'reviews/mock_comparison.html', context)
+>>>>>>> e522931 (added comparison page - 90% done)

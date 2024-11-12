@@ -33,6 +33,7 @@ urlpatterns = [
     path('mocktest/<int:pk>/', views.mock_test_detail, name='mock_test_detail'),
     path('mocktest/<int:mock_test_id>/all-reviews/', views.all_reviews, name='all_reviews'),  # Added line
     path('exam/<int:exam_id>/combined-reviews/', views.combined_reviews_view, name='combined_reviews'),
+    path('exam/<int:exam_id>/mock-comparison/', views.mock_test_comparison, name='mock_comparison'),
 
 >>>>>>> e9f76cf (mock reviews with stars)
 ]
