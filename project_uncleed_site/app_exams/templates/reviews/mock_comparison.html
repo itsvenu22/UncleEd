@@ -178,7 +178,15 @@
     if (document.getElementById('radarChart')) {
         new Chart(document.getElementById('radarChart').getContext('2d'), {
             type: 'radar',
-            data: radarData,
+            data: {
+            labels: radarData.labels,
+            datasets: radarData.datasets.map((dataset, index) => ({
+                ...dataset,
+                backgroundColor: index === 0 ? 'rgba(0, 150, 136, 0.2)' : 'rgba(0, 188, 212, 0.2)', // Different background color for each dataset
+                borderColor: index === 0 ? 'rgba(0, 150, 136, 1)' : 'rgba(0, 188, 212, 1)', // Different border color for each dataset
+                pointBackgroundColor: index === 0 ? 'rgba(0, 150, 136, 1)' : 'rgba(0, 188, 212, 1)', // Point color
+            }))
+        },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
@@ -193,6 +201,9 @@
                         position: 'top',
                         labels: {
                             color: '#004d40',
+                            font: {
+                                size: 14
+                            },
                         }
                     }
                 }
