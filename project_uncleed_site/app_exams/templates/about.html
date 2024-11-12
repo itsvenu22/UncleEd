@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Uncleed</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="/done16.png" type="image/x-icon">
+    <style>
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8f8f8;
+            color: #333;
+            overflow-x: hidden;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background-color: #ffffff;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 10;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-logo a {
+            color: #004d40;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.8em;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-logo a:hover {
+            color: #00796b;
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-links a {
+            color: #004d40;
+            text-decoration: none;
+            margin: 0 25px;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .navbar-links a:hover {
+            color: #00796b;
+            transform: scale(1.1);
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 120px 5%;
+            background-color: #ffffff;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 30px;
+            margin: 100px 10px;
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+
+        .about-section:hover {
+            transform: scale(1.03);
+        }
+
+        .about-section h2 {
+            font-size: 3.2em;
+            margin-bottom: 60px;
+            color: #004d40;
+            font-weight: 700;
+            position: relative;
+            animation: bounceIn 1s ease-out;
+        }
+
+        .about-section h2::after {
+            content: '';
+            width: 100px;
+            height: 5px;
+            background-color: #004d40;
+            position: absolute;
+            left: 50%;
+            bottom: -20px;
+            transform: translateX(-50%);
+            border-radius: 5px;
+            animation: zoomIn 1s ease-out;
+        }
+
+        .about-section p {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        /* Team Section */
+        .team-section {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 80px;
+            flex-wrap: wrap;
+        }
+
+        .team-member {
+            background: #00796b;
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .team-member h3 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .team-member p {
+            font-size: 1.1em;
+            color: #e0f2f1;
+            margin-bottom: 20px;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #004d40;
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+            font-size: 1.1em;
+            position: relative;
+            margin-top: 80px;
+        }
+
+        footer a {
+            color: #ffcc80;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #ffd54f;
+        }
+
+        /* Enhanced Button Link Styling */
+        #button-link {
+            display: inline-block;
+            padding: 12px 25px;
+            margin-top: 10px;
+            background-color: #00796b;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 25px;
+            font-size: 1em;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #button-link:hover {
+            background-color: #00574b;
+            background-image: linear-gradient(to bottom right, #00574b, #004d40);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="navbar-logo">
+            <a href="/">Uncleed</a>
+        </div>
+        <div class="navbar-links">
+            <a href="/">Home</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="/">Services</a>
+            <a href="{% url 'contact' %}">Contact</a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Signup</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <h2>About Uncleed</h2>
+        <p>Uncleed is a leading provider of high-quality mock tests for various competitive exams. We offer free and
+            easily accessible practice tests that help students prepare for success. Whether it's for JEE, NEET, UPSC,
+            or any other major exam, Uncleed is here to support students in their preparation journey.</p>
+
+        <h2>Our Team</h2>
+        <div class="team-section">
+            <div class="team-member">
+                <h3>Prateek</h3>
+                <p>Co-founder</p>
+                <p>With extensive experience in software development, Prateek Uncleed's technological innovations
+                    and growth.</p>
+            </div>
+            <div class="team-member">
+                <h3>Venukanthan</h3>
+                <p>Co-founder</p>
+                <p>"Technology is not just about building systems; it's about creating solutions with passion that drive
+                    change, solve real-world problems, and shape a future we believe in."</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Uncleed. All rights reserved.</p>
+        <a href="/">Home</a> | <a href="{% url 'about' %}">About</a> | <a href="{% url 'contact' %}">Contact</a>
+    </footer>
+</body>
+
+</html>
