@@ -82,6 +82,9 @@ def contact(request):
 def notfound404(request):
     return render(request, 'notfound404.html')
 
+def about(request):
+    return render(request, 'about.html')
+
 @login_required
 def add_review(request, mock_test_id):
     mock_test = get_object_or_404(MockTest, id=mock_test_id)
