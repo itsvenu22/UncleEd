@@ -170,37 +170,89 @@
     </div>
 
     <!-- Chart.js Scripts -->
-    <script>
-        const radarData = {{ radar_data_json|safe }};
-        const barLineData = {{ bar_line_data_json|safe }};
+<script>
+    const radarData = {{ radar_data_json|safe }};
+    const barLineData = {{ bar_line_data_json|safe }};
 
-        // Radar Chart
-        if (document.getElementById('radarChart')) {
-            new Chart(document.getElementById('radarChart').getContext('2d'), {
-                type: 'radar',
-                data: radarData,
-                options: { responsive: true, maintainAspectRatio: false, scales: { r: { beginAtZero: true, max: 5 } } }
-            });
-        }
+    // Radar Chart
+    if (document.getElementById('radarChart')) {
+        new Chart(document.getElementById('radarChart').getContext('2d'), {
+            type: 'radar',
+            data: radarData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { r: { beginAtZero: true, max: 5 } },
+                animation: {
+                    duration: 1500, // Increase duration for a slower animation
+                    easing: 'easeOutCubic', // Easing for a smoother, gradual animation
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            color: '#004d40',
+                        }
+                    }
+                }
+            }
+        });
+    }
 
-        // Bar Chart
-        if (document.getElementById('barChart')) {
-            new Chart(document.getElementById('barChart').getContext('2d'), {
-                type: 'bar',
-                data: { labels: barLineData.labels, datasets: barLineData.bar_datasets },
-                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 5 } } }
-            });
-        }
+    // Bar Chart
+    if (document.getElementById('barChart')) {
+        new Chart(document.getElementById('barChart').getContext('2d'), {
+            type: 'bar',
+            data: { labels: barLineData.labels, datasets: barLineData.bar_datasets },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { y: { beginAtZero: true, max: 5.5 } },
+                animation: {
+                    duration: 1500,
+                    easing: 'easeOutCubic',
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            color: '#004d40',
+                        }
+                    }
+                }
+            }
+        });
+    }
 
-        // Line Chart
-        if (document.getElementById('lineChart')) {
-            new Chart(document.getElementById('lineChart').getContext('2d'), {
-                type: 'line',
-                data: { labels: barLineData.labels, datasets: barLineData.line_datasets },
-                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 5.5 } } }
-            });
-        }
-    </script>
+    // Line Chart
+    if (document.getElementById('lineChart')) {
+        new Chart(document.getElementById('lineChart').getContext('2d'), {
+            type: 'line',
+            data: { labels: barLineData.labels, datasets: barLineData.line_datasets },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { y: { beginAtZero: true, max: 5.5 } },
+                animation: {
+                    duration: 1500,
+                    easing: 'easeOutCubic',
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            color: '#004d40',
+                        }
+                    }
+                }
+            }
+        });
+    }
+</script>
+
 </body>
 </html>
 
