@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Test Comparison</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* General Body and Font Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 20px;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        /* Header Styling */
+        h1 {
+            color: #004d40;
+            font-size: 2em;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        /* Flex Container for Full Page Layout */
+        .content-container {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            height: 80vh;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Left Column Styling */
+        .left-column {
+            width: 250px;
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        /* Controls Form Styling */
+        #controlsForm {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        #controlsForm label {
+            font-weight: bold;
+            font-size: 1em;
+        }
+
+        #controlsForm select {
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s;
+            width: 100%;
+        }
+
+        #controlsForm select:focus {
+            border-color: #00796b;
+        }
+
+        #controlsForm button {
+            padding: 8px 15px;
+            background-color: #00796b;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            width: 100%;
+        }
+
+        #controlsForm button:hover {
+            background-color: #004d40;
+        }
+
+        /* Right Column (Chart) Styling */
+        .right-column {
+            flex: 3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            max-height: 600px;
+        }
+
+        /* Chart Containers with Specific Widths */
+        .chart-container {
+            width: 100%;
+            height: 100%;
+            max-height: 600px;
+        }
+
+        /* Wider Bar and Line Chart Styling */
+        #barChartContainer, #lineChartContainer {
+            max-width: 900px;
+        }
+        
+        /* Standard Radar Chart Styling */
+        #radarChartContainer {
+            max-width: 750px;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ exam.title }} - Mock Test Comparison</h1>
+
+    <!-- Side-by-Side Content Container -->
+    <div class="content-container">
+        <!-- Left Column: Controls for Chart Type and Mock Test Selection -->
+        <div class="left-column">
+            <form id="controlsForm" method="GET">
+                <label for="chart_type">Select Chart Type:</label>
+                <select id="chart_type" name="chart_type" onchange="document.getElementById('controlsForm').submit()">
+                    <option value="radar" {% if chart_type == 'radar' %}selected{% endif %}>Radar Chart</option>
+                    <option value="bar" {% if chart_type == 'bar' %}selected{% endif %}>Bar Chart</option>
+                    <option value="line" {% if chart_type == 'line' %}selected{% endif %}>Line Chart</option>
+                </select>
+
+                <label for="mock_test_1">Mock Test 1:</label>
+                <select id="mock_test_1" name="mock_test_1">
+                    {% for mock in mock_tests %}
+                        <option value="{{ mock.id }}" {% if mock.id|stringformat:"s" == selected_mock_1 %}selected{% endif %}>{{ mock.title }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="mock_test_2">Mock Test 2:</label>
+                <select id="mock_test_2" name="mock_test_2">
+                    {% for mock in mock_tests %}
+                        <option value="{{ mock.id }}" {% if mock.id|stringformat:"s" == selected_mock_2 %}selected{% endif %}>{{ mock.title }}</option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit">Apply</button>
+            </form>
+        </div>
+
+        <!-- Right Column: Chart Display Area -->
+        <div class="right-column">
+            <!-- Dynamic Chart Containers -->
+            <div id="radarChartContainer" class="chart-container" style="display: {% if chart_type == 'radar' %}block{% else %}none{% endif %};">
+                <canvas id="radarChart"></canvas>
+            </div>
+            <div id="barChartContainer" class="chart-container" style="display: {% if chart_type == 'bar' %}block{% else %}none{% endif %};">
+                <canvas id="barChart"></canvas>
+            </div>
+            <div id="lineChartContainer" class="chart-container" style="display: {% if chart_type == 'line' %}block{% else %}none{% endif %};">
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart.js Scripts -->
+    <script>
+        const radarData = {{ radar_data_json|safe }};
+        const barLineData = {{ bar_line_data_json|safe }};
+
+        // Radar Chart
+        if (document.getElementById('radarChart')) {
+            new Chart(document.getElementById('radarChart').getContext('2d'), {
+                type: 'radar',
+                data: radarData,
+                options: { responsive: true, maintainAspectRatio: false, scales: { r: { beginAtZero: true, max: 5 } } }
+            });
+        }
+
+        // Bar Chart
+        if (document.getElementById('barChart')) {
+            new Chart(document.getElementById('barChart').getContext('2d'), {
+                type: 'bar',
+                data: { labels: barLineData.labels, datasets: barLineData.bar_datasets },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 5 } } }
+            });
+        }
+
+        // Line Chart
+        if (document.getElementById('lineChart')) {
+            new Chart(document.getElementById('lineChart').getContext('2d'), {
+                type: 'line',
+                data: { labels: barLineData.labels, datasets: barLineData.line_datasets },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 5.5 } } }
+            });
+        }
+    </script>
+</body>
+</html>
+
