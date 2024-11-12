@@ -164,32 +164,36 @@
                 width: 100%;
             }
         }
-        /* Back Link */
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #00796b;
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 1.1em;
-            font-weight: 600;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        }
+		/* Back Link Centered in Left Column */
+			.back-link {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin: 30px auto 0; /* Center horizontally and add margin-top */
+				padding: 10px 20px;
+				background-color: #00796b;
+				color: white;
+				text-decoration: none;
+				border-radius: 50px;
+				font-size: 1.1em;
+				font-weight: 600;
+				transition: background-color 0.3s ease, transform 0.3s ease;
+				box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+				width: fit-content; /* Adjust width to fit content */
+			}
 
-        .back-link:hover {
-            background-color: #004d40;
-            transform: translateY(-3px);
-        }
+			.back-link:hover {
+				background-color: #004d40;
+				transform: translateY(-3px);
+			}
+			
     </style>
 </head>
 <body>
     <div class="content-container">
         <!-- Left Column: Sorted List -->
         <div class="left-column">
-            <h1>{{ exam.title }} - Combined Reviews</h1>
+            <h1>{{ exam.title }} - Test Analytics</h1>
 
     <!-- Sort and Show Controls -->
     <form id="controlsForm" method="GET">
