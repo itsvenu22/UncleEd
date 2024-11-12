@@ -61,17 +61,24 @@
         }
 
         #controlsForm select {
-            padding: 6px;
-            border: 1px solid #ccc;
+            padding: 8px;
+            border: 1px solid #00796b;
             border-radius: 5px;
             font-size: 1em;
+            background-color: #e0f2f1;
+            color: #00796b;
+            transition: all 0.3s ease;
             outline: none;
-            transition: border-color 0.3s;
-            width: 100%;
+			width: 100%
         }
 
         #controlsForm select:focus {
             border-color: #00796b;
+        }
+		
+		#controlsForm label {
+            font-weight: bold;
+            color: #00796b;
         }
 
         #controlsForm button {
@@ -87,6 +94,11 @@
 
         #controlsForm button:hover {
             background-color: #004d40;
+        }
+		#controlsForm select:hover,
+        #controlsForm select:focus {
+            border-color: #004d40;
+            background-color: #ffffff;
         }
 
         /* Right Column (Chart) Styling */
@@ -119,39 +131,41 @@
         #radarChartContainer {
             max-width: 750px;
         }
+
     </style>
 </head>
 <body>
-    <h1>{{ exam.title }} - Mock Test Comparison</h1>
+    <h1>{{ exam.title }} - Mock Tests Characteristic Analysis</h1>
 
     <!-- Side-by-Side Content Container -->
     <div class="content-container">
         <!-- Left Column: Controls for Chart Type and Mock Test Selection -->
         <div class="left-column">
-            <form id="controlsForm" method="GET">
-                <label for="chart_type">Select Chart Type:</label>
-                <select id="chart_type" name="chart_type" onchange="document.getElementById('controlsForm').submit()">
-                    <option value="radar" {% if chart_type == 'radar' %}selected{% endif %}>Radar Chart</option>
-                    <option value="bar" {% if chart_type == 'bar' %}selected{% endif %}>Bar Chart</option>
-                    <option value="line" {% if chart_type == 'line' %}selected{% endif %}>Line Chart</option>
-                </select>
+			<form id="controlsForm" method="GET">
+				<label for="chart_type">Select Chart Type:</label>
+				<select id="chart_type" name="chart_type" onchange="document.getElementById('controlsForm').submit()">
+					<option value="radar" {% if chart_type == 'radar' %}selected{% endif %}>Radar Chart</option>
+					<option value="bar" {% if chart_type == 'bar' %}selected{% endif %}>Bar Chart</option>
+					<option value="line" {% if chart_type == 'line' %}selected{% endif %}>Line Chart</option>
+				</select>
 
-                <label for="mock_test_1">Mock Test 1:</label>
-                <select id="mock_test_1" name="mock_test_1">
-                    {% for mock in mock_tests %}
-                        <option value="{{ mock.id }}" {% if mock.id|stringformat:"s" == selected_mock_1 %}selected{% endif %}>{{ mock.title }}</option>
-                    {% endfor %}
-                </select>
+				<label for="mock_test_1">Mock Test 1:</label>
+				<select id="mock_test_1" name="mock_test_1">
+					{% for mock in mock_tests %}
+						<option value="{{ mock.id }}" {% if mock.id|stringformat:"s" == selected_mock_1 %}selected{% endif %}>{{ mock.title }}</option>
+					{% endfor %}
+				</select>
 
-                <label for="mock_test_2">Mock Test 2:</label>
-                <select id="mock_test_2" name="mock_test_2">
-                    {% for mock in mock_tests %}
-                        <option value="{{ mock.id }}" {% if mock.id|stringformat:"s" == selected_mock_2 %}selected{% endif %}>{{ mock.title }}</option>
-                    {% endfor %}
-                </select>
+				<label for="mock_test_2">Mock Test 2:</label>
+				<select id="mock_test_2" name="mock_test_2">
+					{% for mock in mock_tests %}
+						<option value="{{ mock.id }}" {% if mock.id|stringformat:"s" == selected_mock_2 %}selected{% endif %}>{{ mock.title }}</option>
+					{% endfor %}
+				</select>
 
-                <button type="submit">Apply</button>
-            </form>
+				<button type="submit">Apply</button>
+				<button type="button" onclick="window.location.href='{% url 'home' %}#mocktest-section'">Back to Exams</button>
+			</form>
         </div>
 
         <!-- Right Column: Chart Display Area -->
@@ -167,6 +181,7 @@
                 <canvas id="lineChart"></canvas>
             </div>
         </div>
+		
     </div>
 
     <!-- Chart.js Scripts -->
@@ -211,57 +226,87 @@
         });
     }
 
-    // Bar Chart
-    if (document.getElementById('barChart')) {
-        new Chart(document.getElementById('barChart').getContext('2d'), {
-            type: 'bar',
-            data: { labels: barLineData.labels, datasets: barLineData.bar_datasets },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: { y: { beginAtZero: true, max: 5.5 } },
-                animation: {
-                    duration: 1500,
-                    easing: 'easeOutCubic',
-                },
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top',
-                        labels: {
-                            color: '#004d40',
-                        }
+// Bar Chart
+if (document.getElementById('barChart')) {
+    new Chart(document.getElementById('barChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: barLineData.labels,
+            datasets: barLineData.bar_datasets.map((dataset, index) => ({
+                ...dataset,
+                backgroundColor: index === 0 ? 'rgba(0, 150, 136, 0.2)' : 'rgba(0, 188, 212, 0.2)', // Background color
+                borderColor: index === 0 ? 'rgba(0, 150, 136, 1)' : 'rgba(0, 188, 212, 1)', // Border color
+                borderWidth: 1  // Optional: Add border width to improve visibility
+            }))
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 5.5
+                }
+            },
+            animation: {
+                duration: 1500,
+                easing: 'easeOutCubic',
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        color: '#004d40',
                     }
                 }
             }
-        });
-    }
+        }
+    });
+}
 
-    // Line Chart
-    if (document.getElementById('lineChart')) {
-        new Chart(document.getElementById('lineChart').getContext('2d'), {
-            type: 'line',
-            data: { labels: barLineData.labels, datasets: barLineData.line_datasets },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: { y: { beginAtZero: true, max: 5.5 } },
-                animation: {
-                    duration: 1500,
-                    easing: 'easeOutCubic',
-                },
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top',
-                        labels: {
-                            color: '#004d40',
-                        }
+// Line Chart
+if (document.getElementById('lineChart')) {
+    new Chart(document.getElementById('lineChart').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: barLineData.labels,
+            datasets: barLineData.line_datasets.map((dataset, index) => ({
+                ...dataset,
+                borderColor: index === 0 ? 'rgba(0, 150, 136, 1)' : 'rgba(0, 188, 212, 1)', // Line color
+                backgroundColor: index === 0 ? 'rgba(0, 150, 136, 0.2)' : 'rgba(0, 188, 212, 0.2)', // Fill color
+                pointBackgroundColor: index === 0 ? 'rgba(0, 150, 136, 1)' : 'rgba(0, 188, 212, 1)', // Point color
+                pointRadius: 4, // Point size
+                borderWidth: 2 // Make lines thin
+            }))
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 5.5
+                }
+            },
+            animation: {
+                duration: 1500,
+                easing: 'easeOutCubic',
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        color: '#004d40',
                     }
                 }
             }
-        });
-    }
+        }
+    });
+}
+
+
 </script>
 
 </body>
