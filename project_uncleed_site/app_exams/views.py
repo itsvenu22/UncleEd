@@ -7,6 +7,9 @@ from .models import Exam, MockTest, Review
 from django.contrib.auth.decorators import login_required
 
 from django.db.models import Avg, F
+from django.shortcuts import render, get_object_or_404
+from django.db.models import Avg
+from .models import Exam, MockTest, Review
 import json
 
 def register_view(request):
@@ -37,7 +40,7 @@ def logout_view(request):
 
 class CustomPasswordResetView(PasswordResetView):
     template_name = 'password_reset.html'
-    email_template_name = 'password_reset_email.html'
+    html_email_template_name = 'password_reset_email.html'
     success_url = reverse_lazy('password_reset_done')
 
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
@@ -226,10 +229,6 @@ def combined_reviews_view(request, exam_id):
         'temp': temp
     }
     return render(request, 'reviews/combined_reviews.html', context)
-from django.shortcuts import render, get_object_or_404
-from django.db.models import Avg
-from .models import Exam, MockTest, Review
-import json
 
 def mock_test_comparison(request, exam_id):
     exam = get_object_or_404(Exam, id=exam_id)

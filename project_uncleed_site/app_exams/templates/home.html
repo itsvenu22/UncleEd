@@ -413,6 +413,8 @@
                     {% if user.is_authenticated %}
                     <a href="{% url 'combined_reviews' exam.pk %}" id="button-link">View Analytics</a>
                     <a href="{% url 'mock_comparison' exam.pk %}" id="button-link">Compare Mocks</a>
+                    {% else %}
+                    <a href="{% url 'login' %}" id="button-link">Login to get Analytics</a>
                     {% endif %}
                 </div>
                 {% empty %}
