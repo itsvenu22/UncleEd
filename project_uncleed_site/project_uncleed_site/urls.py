@@ -2,6 +2,9 @@ from django.contrib import admin
 from django.urls import path
 from app_exams import views
 from django.contrib.auth.views import PasswordResetDoneView, PasswordResetCompleteView
+from django.conf.urls import handler404
+
+handler404 = 'app_exams.views.notfound404'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -18,9 +21,9 @@ urlpatterns = [
     path('password_reset_complete/', PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), name='password_reset_complete'),
     path('exam/<int:pk>/', views.exam_detail_view, name='exam_detail'),
     path('mocktest/<int:mock_test_id>/review/', views.add_review, name='add_review'),
-    path('mocktest/<int:mock_test_id>/your-reviews/', views.user_reviews, name='user_reviews'),  # Added line
+    path('mocktest/<int:mock_test_id>/your-reviews/', views.user_reviews, name='user_reviews'),
     path('mocktest/<int:pk>/', views.mock_test_detail, name='mock_test_detail'),
-    path('mocktest/<int:mock_test_id>/all-reviews/', views.all_reviews, name='all_reviews'),  # Added line
+    path('mocktest/<int:mock_test_id>/all-reviews/', views.all_reviews, name='all_reviews'),
     path('exam/<int:exam_id>/combined-reviews/', views.combined_reviews_view, name='combined_reviews'),
     path('exam/<int:exam_id>/mock-comparison/', views.mock_test_comparison, name='mock_comparison'),
 

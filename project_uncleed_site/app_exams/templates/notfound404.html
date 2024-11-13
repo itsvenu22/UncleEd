@@ -15,6 +15,10 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             background: #f4f4f4;
@@ -80,6 +84,7 @@
             background: linear-gradient(135deg, #004d40, #00796b);
             color: white;
             padding: 20px;
+            padding-top: 100px;
             overflow: hidden;
         }
 
@@ -118,6 +123,12 @@
             transform: translateY(-5px);
         }
 
+        .error-section button:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Animations */
         @keyframes fadeInDown {
             0% {
                 opacity: 0;
@@ -171,11 +182,32 @@
             color: #ffcc80;
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s ease;
+            transition: color 0.3s ease, transform 0.3s ease;
         }
 
         footer a:hover {
             color: #ffd54f;
+            transform: scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .error-section h1 {
+                font-size: 4em;
+            }
+
+            .error-section p {
+                font-size: 1.2em;
+            }
+
+            .navbar {
+                padding: 15px 30px;
+            }
+
+            .navbar-links a {
+                font-size: 1em;
+                margin: 0 10px;
+            }
         }
     </style>
 </head>
@@ -188,11 +220,15 @@
         </div>
         <div class="navbar-links">
             <a href="/">Home</a>
-            <a href="#mocktest-section">Mock Tests</a>
-            <a href="/">About</a>
-            <a href="http://127.0.0.1:9090/contact">Contact</a>
-            <a href="http://127.0.0.1:9090/login">Login</a>
-            <a href="http://127.0.0.1:9090/register">Signup</a>
+            <a href="{% url 'home' %}#mocktest-section">Mock Tests</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'contact' %}">Contact</a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Signup</a>
+            {% endif %}
         </div>
     </header>
 
@@ -200,7 +236,7 @@
     <section class="error-section">
         <h1>404</h1>
         <p>Oops! The page you're looking for doesn't exist.</p>
-        <button onclick="window.location.href='/'">Go Back Home</button>
+        <button onclick="window.location.href='/'" aria-label="Go back to the homepage">Go Back Home</button>
     </section>
 
     <!-- Footer -->
