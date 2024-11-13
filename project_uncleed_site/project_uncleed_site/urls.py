@@ -2,6 +2,9 @@ from django.contrib import admin
 from django.urls import path
 from app_exams import views
 from django.contrib.auth.views import PasswordResetDoneView, PasswordResetCompleteView
+from django.conf.urls import handler404
+
+handler404 = 'app_exams.views.notfound404'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -20,6 +23,7 @@ urlpatterns = [
     path('mocktest/<int:mock_test_id>/review/', views.add_review, name='add_review'),
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     path('exam/<int:pk>/', views.mock_test_detail, name='mock_test_detail'),  # Added this line
 =======
     path('exam/<int:mock_test_id>/add_review/', views.add_review, name='add_review'),
@@ -31,8 +35,11 @@ urlpatterns = [
 >>>>>>> 383dd17 (base(add review) : working ✅)
 =======
     path('mocktest/<int:mock_test_id>/your-reviews/', views.user_reviews, name='user_reviews'),  # Added line
+=======
+    path('mocktest/<int:mock_test_id>/your-reviews/', views.user_reviews, name='user_reviews'),
+>>>>>>> 9077692 (fallback - new version ✅ (minor updates))
     path('mocktest/<int:pk>/', views.mock_test_detail, name='mock_test_detail'),
-    path('mocktest/<int:mock_test_id>/all-reviews/', views.all_reviews, name='all_reviews'),  # Added line
+    path('mocktest/<int:mock_test_id>/all-reviews/', views.all_reviews, name='all_reviews'),
     path('exam/<int:exam_id>/combined-reviews/', views.combined_reviews_view, name='combined_reviews'),
     path('exam/<int:exam_id>/mock-comparison/', views.mock_test_comparison, name='mock_comparison'),
 

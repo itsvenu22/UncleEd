@@ -82,8 +82,8 @@ def exam_detail_view(request, pk):
 def contact(request):
     return render(request, 'contacts.html')
 
-def notfound404(request):
-    return render(request, 'notfound404.html')
+def notfound404(request, exception):
+    return render(request, 'notfound404.html', status=404)
 
 def about(request):
     return render(request, 'about.html')
