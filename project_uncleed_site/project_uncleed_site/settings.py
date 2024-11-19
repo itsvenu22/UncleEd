@@ -24,11 +24,11 @@ AUTH_USER_MODEL = 'app_exams.CustomUser'
 SECRET_KEY = 'django-insecure-d#m*h08($1&n&m31sy3!l@w4yu^4-&!3^!*^x2$n_7a_baj-_('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-CSRF_TRUSTED_ORIGINS = ['*']
+#CSRF_TRUSTED_ORIGINS = ['*']
 
 # Application definition
 
