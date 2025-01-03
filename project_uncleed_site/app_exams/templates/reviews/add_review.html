@@ -222,18 +222,26 @@
     <!-- Navigation Bar -->
     <header class="navbar">
         <div class="navbar-logo">
-            <a href="/">Uncleed</a>
+            <a href="/">Uncle Ed</a>
         </div>
         <div class="navbar-links">
-            <a href="/">Home</a>
-            <a href="{% url 'home' %}#mocktest-section">Mock Tests</a>
-            <a href="/">About</a>
-            <a href="{% url 'contact' %}">Contact</a>
+
+            {% if user.is_authenticated %}
+            <a href="#mocktest-section">Rating</a>
+            <a href="#mocktest-section">Compare Mocks</a>
+            <a href="#mocktest-section">Analysis</a>
+            {% else %}
+            <a href="{% url 'login' %}">Rating</a>
+            <a href="{% url 'login' %}">Compare Mocks</a>
+            <a href="{% url 'login' %}">Analysis</a>
+            {% endif %}
+
+            <a href="{% url 'home' %}#mocktest-section">Exams</a>
             {% if user.is_authenticated %}
             <a href="{% url 'logout' %}">Logout</a>
             {% else %}
-            <a href="{% url 'login' %}">Login</a>
-            <a href="{% url 'register' %}">Signup</a>
+            <a href="{% url 'login' %}">Log in</a>
+            <a href="{% url 'register' %}">Join for free</a>
             {% endif %}
         </div>
     </header>
@@ -249,7 +257,7 @@
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Submit Review</button>
+            <button type="submit">Submit Ratings</button>
         </form>
         <a href="{% url 'exam_detail' mock_test.exam.id %}" class="back-link">Back</a>
     </section>

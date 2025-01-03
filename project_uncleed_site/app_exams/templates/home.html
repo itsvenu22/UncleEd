@@ -124,7 +124,6 @@
             z-index: 1;
             position: relative;
             font-weight: 800;
-            text-transform: uppercase;
             letter-spacing: 2px;
             text-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
             animation: fadeInDown 1s ease-out;
@@ -382,12 +381,16 @@
         <div class="navbar-links">
 
             {% if user.is_authenticated %}
+            <a href="#mocktest-section">Rating</a>
+            <a href="#mocktest-section">Compare Mocks</a>
             <a href="#mocktest-section">Analysis</a>
             {% else %}
-            <a href="{% url 'login' %}">Log in</a>
+            <a href="{% url 'login' %}">Rating</a>
+            <a href="{% url 'login' %}">Compare Mocks</a>
+            <a href="{% url 'login' %}">Analysis</a>
             {% endif %}
 
-            <a href="{% url 'home' %}#mocktest-section">Mock Tests</a>
+            <a href="{% url 'home' %}#mocktest-section">Exams</a>
             {% if user.is_authenticated %}
             <a href="{% url 'logout' %}">Logout</a>
             {% else %}
@@ -399,8 +402,8 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <h1>Uncle Ed helps you decide which mock to buy</h1>
-        <p>Rate, Compare then Buy.</p>
+        <h1>Uncle Ed helps you decide best mock test for you</h1>
+        <p>Rating, Compare then Buy.</p>
         <a href="#mocktest-section"><button>Choose an Exam</button></a>
     </section>
 
@@ -431,8 +434,8 @@
     <!-- Footer -->
     <footer>
         <p>&copy; 2024 Uncleed. All rights reserved.</p>
-        <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="{% url 'about' %}">About</a> |
-            <a href="#">Feedback</a>
+        <p><a href="{% url 'about' %}">About</a> |
+            <a href="#">Feedback</a> | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
         </p>
     </footer>
 </body>

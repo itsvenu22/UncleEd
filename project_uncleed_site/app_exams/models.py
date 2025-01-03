@@ -61,15 +61,15 @@ class Review(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     # Rating fields
-    characteristic_1 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name="Clarity of Concepts (1-5)")
-    characteristic_2 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name="Difficulty Appropriateness (1-5)")
-    characteristic_3 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name="Relevance to Exam Pattern (1-5)")
-    characteristic_4 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name="Quality of Questions (1-5)")
-    characteristic_5 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name="Time Management (1-5)")
-    characteristic_6 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name="Overall Preparation Value (1-5)")
-    characteristic_7 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name="Likelihood of Recommending (1-5)")
+    characteristic_1 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name="Interface Quality: How user friendly Mock test was? (1-5)")
+    characteristic_2 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name="Question Quality: Were questions error-free? (1-5)")
+    characteristic_3 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name="Solution Quality: Were the solutions relevant to the exam? (1-5)")
+    characteristic_4 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name="Quality: How easy to understand was the Analysis portion of mock test? (1-5)")
+    characteristic_5 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name="Nearness: How similar was the mock to the real exam? (1-5)")
+    characteristic_6 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name="Test Balance: was the mock having a healthy balance of questions from all the topics? (1-5)")
+    characteristic_7 = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], verbose_name="Position to Peer Indicator: How closly was mock able to tell you, your position in comparison to your fellow aspirants (1-5)")
 
-    feedback = models.TextField()
+    feedback = models.TextField(verbose_name="Your views about the mock test:")
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
